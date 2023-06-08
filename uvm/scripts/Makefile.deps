@@ -1,0 +1,13 @@
+#--- DO NOT MODIFY THIS FILE ----------------------------------------------------------------------
+
+# Prefix for change of hierarchy. Do *not* modify this line!
+PREFIX != pwd | sed "s@\/@\\\/@g"
+
+# Compilation and elaboration steps are updated when sources list did recently change...
+IN_FILES = rtl_sources.list ver_sources.list sim_sources.list
+IN_FILES_TSTAMP = $(IN_FILES:%.list=.%.timestamp)
+
+# ... or sources did
+SRCS_SV != grep -sh "^[$$/].*\.sv$$" $(IN_FILES) ; grep -sh "^[^$$/].*\.sv$$" $(IN_FILES) | sed "s@^@$(PREFIX)/@g"
+SRCS_V != grep -sh "^[$$/].*\.v$$" $(IN_FILES) ; grep -sh "^[^$$/].*\.v$$" $(IN_FILES) | sed "s@^@$(PREFIX)/@g"
+SRCS_VHD != grep -sh "^[$$/].*\.vhd$$" $(IN_FILES) ; grep -sh "^[^$$/].*\.vhd$$" $(IN_FILES) | sed "s@^@$(PREFIX)/@g"

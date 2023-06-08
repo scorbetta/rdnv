@@ -1,0 +1,88 @@
+{
+   ExpandedHierarchyInLayout: "",
+   guistr: "# # String gsaved with Nlview 6.8.5  2018-01-30 bk=1.4354 VDI=40 GEI=35 GUI=JA:1.6 TLS
+#  -string -flagsOSRD
+preplace port sync_clk_out -pg 1 -y 800 -defaultsOSRD
+preplace port MASTER_SC_AXIL -pg 1 -y 130 -defaultsOSRD
+preplace port MEM_CLK -pg 1 -y 230 -defaultsOSRD
+preplace port gt_qplllock_quad1_out -pg 1 -y 700 -defaultsOSRD
+preplace port SOFT_RST -pg 1 -y 190 -defaultsOSRD
+preplace port gt_qpllrefclk_quad1_out -pg 1 -y 840 -defaultsOSRD
+preplace port user_clk_out -pg 1 -y 740 -defaultsOSRD
+preplace port MASTER_DC_AXIL -pg 1 -y 110 -defaultsOSRD
+preplace port RSTN -pg 1 -y 270 -defaultsOSRD
+preplace port SLAVE_1_SHADOW_AXI -pg 1 -y 310 -defaultsOSRD
+preplace port GT_SERIAL_TX_0 -pg 1 -y 660 -defaultsOSRD
+preplace port gt_qpllclk_quad1_out -pg 1 -y 820 -defaultsOSRD
+preplace port gt_refclk1_out -pg 1 -y 900 -defaultsOSRD
+preplace port GT_SERIAL_RX_0 -pg 1 -y 770 -defaultsOSRD
+preplace port RST -pg 1 -y 360 -defaultsOSRD
+preplace port gt_rxcdrovrden_in_0 -pg 1 -y 710 -defaultsOSRD
+preplace port sys_reset_out -pg 1 -y 860 -defaultsOSRD
+preplace port MASTER_DDR -pg 1 -y 90 -defaultsOSRD
+preplace port gt_reset_out -pg 1 -y 880 -defaultsOSRD
+preplace port init_clk -pg 1 -y 830 -defaultsOSRD
+preplace port GT_DIFF_REFCLK1_0 -pg 1 -y 670 -defaultsOSRD
+preplace port power_down_0 -pg 1 -y 750 -defaultsOSRD
+preplace port MEM_RSTN -pg 1 -y 210 -defaultsOSRD
+preplace port SLAVE_1_DBG_AXI -pg 1 -y 340 -defaultsOSRD
+preplace port MEM_RST -pg 1 -y 250 -defaultsOSRD
+preplace port mmcm_not_locked_out_0 -pg 1 -y 640 -defaultsOSRD
+preplace port pma_init -pg 1 -y 790 -defaultsOSRD
+preplace port gt_qpllrefclklost_quad1_out -pg 1 -y 720 -defaultsOSRD
+preplace portBus loopback_0 -pg 1 -y 730 -defaultsOSRD
+preplace inst SLAVE_1_DC_ila -pg 1 -lvl 5 -y 0 -defaultsOSRD
+preplace inst xlconstant_0 -pg 1 -lvl 4 -y 440 -defaultsOSRD
+preplace inst AURORA_0 -pg 1 -lvl 3 -y 780 -defaultsOSRD
+preplace inst DMA_ENGINE_0 -pg 1 -lvl 3 -y 110 -defaultsOSRD
+preplace inst XNEXT_SLAVE_1 -pg 1 -lvl 5 -y 380 -defaultsOSRD
+preplace inst XNEXT_MASTER_0 -pg 1 -lvl 1 -y 160 -defaultsOSRD
+preplace inst MASTER_DC_DMA_ila -pg 1 -lvl 2 -y 250 -defaultsOSRD
+preplace netloc Conn1 1 0 1 -40
+preplace netloc XNEXT_MASTER_0_DMA_AXIS 1 1 2 620 90 N
+preplace netloc gt_rxcdrovrden_in_0_1 1 0 3 NJ 710 NJ 710 910J
+preplace netloc Conn2 1 1 5 630 10 N 10 1380 110 N 110 2160
+preplace netloc Conn3 1 0 1 -40
+preplace netloc GT_SERIAL_RX_0_1 1 0 3 NJ 770 NJ 770 880J
+preplace netloc GT_DIFF_REFCLK1_0_1 1 0 3 NJ 670 NJ 670 920J
+preplace netloc XNEXT_MASTER_0_DC_AXIS_0 1 1 4 580 -20 N -20 N -20 1760
+preplace netloc AURORA_0_hard_err 1 3 2 1430 550 N
+preplace netloc MEM_CLK_0_1 1 0 3 10 320 610 130 N
+preplace netloc aurora_64b66b_0_gt_reset_out 1 3 3 1530 880 N 880 N
+preplace netloc Conn4 1 0 5 NJ 340 NJ 340 NJ 340 NJ 340 1750J
+preplace netloc AURORA_0_USER_K_M_AXIS_RX 1 3 2 1390 330 1730
+preplace netloc AURORA_0_USER_DATA_M_AXIS_RX 1 3 2 1380 310 1720
+preplace netloc loopback_0_1 1 0 3 NJ 730 NJ 730 900J
+preplace netloc microblaze_0_Clk 1 0 6 -10 0 N 0 920 460 1420 560 1740 740 N
+preplace netloc Conn5 1 0 5 -50J 350 NJ 350 NJ 350 NJ 350 1760J
+preplace netloc XNEXT_SLAVE_0_DC_AXI_M00 1 0 6 0 -10 N -10 N -10 N -10 1700 120 2120
+preplace netloc AURORA_0_lane_up 1 3 2 1410 510 N
+preplace netloc util_vector_logic_0_Res 1 0 3 NJ 790 NJ 790 870J
+preplace netloc XNEXT_SLAVE_0_DC_AXI_M01 1 2 4 940 0 N 0 1710J -110 2130J
+preplace netloc XNEXT_MASTER_0_SC_AXIS_0 1 1 4 600 160 910 210 N 210 1730
+preplace netloc AURORA_0_soft_err 1 3 2 1440 530 N
+preplace netloc MEM_RSTN_0_1 1 0 2 -30 330 630
+preplace netloc XNEXT_MASTER_0_DMA_AXIL 1 1 2 590 70 N
+preplace netloc XNEXT_SLAVE_0_SC_AXI_M00 1 0 6 -40 -130 N -130 N -130 N -130 N -130 2150
+preplace netloc xlconstant_0_dout 1 4 1 1770
+preplace netloc aurora_64b66b_0_gt_qplllock_quad1_out 1 3 3 1470 700 N 700 N
+preplace netloc XNEXT_SLAVE_0_SC_AXI_M01 1 2 4 930 -120 N -120 NJ -120 2140J
+preplace netloc aurora_64b66b_0_gt_refclk1_out 1 3 3 1540 900 N 900 N
+preplace netloc aurora_64b66b_0_gt_qpllrefclklost_quad1_out 1 3 3 1480 720 N 720 N
+preplace netloc aurora_64b66b_0_gt_qpllrefclk_quad1_out 1 3 3 1510 840 N 840 N
+preplace netloc aurora_64b66b_0_sync_clk_out 1 3 3 1490 800 N 800 N
+preplace netloc clk_wiz_1_clk_out1 1 0 3 NJ 830 NJ 830 860J
+preplace netloc rst_clk_wiz_1_100M_peripheral_aresetn 1 0 5 0 370 N 370 890 320 N 320 1770
+preplace netloc AURORA_0_channel_up 1 3 2 1400 500 1770
+preplace netloc aurora_64b66b_0_sys_reset_out1 1 3 3 1520 860 N 860 N
+preplace netloc aurora_64b66b_0_GT_SERIAL_TX 1 3 3 1460 660 N 660 N
+preplace netloc RST_0_1 1 0 5 -10J 360 NJ 360 NJ 360 NJ 360 1710J
+preplace netloc aurora_64b66b_0_mmcm_not_locked_out 1 3 3 1450 640 N 640 N
+preplace netloc SOFT_RST_0_1 1 0 5 -40J 380 N 380 N 380 N 380 1700
+preplace netloc MEM_RST_0_1 1 0 1 -20
+preplace netloc aurora_64b66b_0_gt_qpllclk_quad1_out 1 3 3 1500 820 N 820 N
+preplace netloc power_down_0_1 1 0 3 NJ 750 NJ 750 890J
+levelinfo -pg 1 -70 450 750 1160 1620 1970 2180 -top -150 -bot 1060
+",
+}
+0

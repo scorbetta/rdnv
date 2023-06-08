@@ -1,0 +1,13 @@
+sv xil_defaultlib ${UVM_MARKET}/axi4/axi4_pkg.sv
+sv xil_defaultlib /home/utente/projects/sandbox/uvm/design_examples/DDR_RING_BUFFER/../../../ni-cores/syn/DDR_RING_BUFFER/src/sv/SIMPLE_FIFO.sv
+sv xil_defaultlib /home/utente/projects/sandbox/uvm/design_examples/DDR_RING_BUFFER/../../../ni-cores/syn/DDR_RING_BUFFER/src/sv/AXIVFIFO.sv
+sv xil_defaultlib /home/utente/projects/sandbox/uvm/design_examples/DDR_RING_BUFFER/../../../ni-cores/syn/DDR_RING_BUFFER/src/sv/DDR_RING_BUFFER.sv
+sv xil_defaultlib ${UVM_MARKET}/axi4/axi4s/axi4s_agent_pkg.sv
+sv xil_defaultlib ${UVM_MARKET}/axi4/axi4s/checkers/Axi4StreamPC.sv
+sv xil_defaultlib /home/utente/projects/sandbox/uvm/design_examples/DDR_RING_BUFFER/ver/ddr_ring_buffer_ver_pkg.sv
+verilog xil_defaultlib /home/utente/projects/sandbox/uvm/design_examples/DDR_RING_BUFFER/sim/axi_ram.v
+sv xil_defaultlib /home/utente/projects/sandbox/uvm/design_examples/DDR_RING_BUFFER/ver/ddr_ring_buffer_uvm_tb.sv
+vhdl2008 xil_defaultlib /home/utente/projects/sandbox/uvm/design_examples/DDR_RING_BUFFER/../../../ni-cores/syn/random_uniform/src/vhd/random_uniform.vhd
+sv xil_defaultlib /home/utente/projects/sandbox/uvm/design_examples/DDR_RING_BUFFER/../../../ni-cores/sim/CLK_WIZARD/src/sv/CLK_WIZARD.sv
+sv xil_defaultlib /home/utente/projects/sandbox/uvm/design_examples/DDR_RING_BUFFER/../../../ni-cores/syn/SDPRAM/src/sv/SDPRAM.sv
+sv xil_defaultlib /home/utente/projects/sandbox/uvm/design_examples/DDR_RING_BUFFER/../../../ni-cores/syn/DDR_RING_BUFFER/ootbtb/ootbtb.sv

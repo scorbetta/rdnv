@@ -1,0 +1,2 @@
+src/sv/COMMON_CLOCK_FIFO.sv
+src/sv/FWFT_SHOWAHEAD_LOGIC.sv

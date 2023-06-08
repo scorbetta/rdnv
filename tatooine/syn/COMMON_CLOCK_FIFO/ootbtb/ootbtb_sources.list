@@ -1,0 +1,3 @@
+ootbtb.sv
+../../../sim/CLK_WIZARD/src/sv/CLK_WIZARD.sv
+COMMON_CLOCK_FIFO_GOLDEN.vhd

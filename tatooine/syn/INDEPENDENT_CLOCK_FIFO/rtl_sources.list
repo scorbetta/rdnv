@@ -1,0 +1,2 @@
+src/vhd/INDEPENDENT_CLOCK_FIFO.vhd
+src/vhd/FWFT_SHOWAHEAD_LOGIC.vhd

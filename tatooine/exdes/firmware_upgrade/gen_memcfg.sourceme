@@ -1,0 +1,1 @@
+vivado -mode tcl -source gen_memcfg.tcl

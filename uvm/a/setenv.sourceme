@@ -1,0 +1,8 @@
+# Root
+export ROOT=$( pwd )
+
+# UVM Flea Market location
+export UVM_MARKET=${ROOT}/UVMMarket
+
+# Scripts dir
+export SCRIPTS_DIR=${ROOT}/scripts

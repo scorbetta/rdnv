@@ -1,0 +1,3 @@
+../random_uniform/src/vhd/random_uniform.vhd
+src/vhd/adder_signed.vhd
+src/vhd/random_gaussian.vhd

@@ -1,0 +1,6 @@
+${UVM_MARKET}/axi4/axi4_pkg.sv
+../../../ni-cores/sim/CLK_WIZARD/src/sv/CLK_WIZARD.sv
+../../../ni-cores/syn/SDPRAM/src/sv/SDPRAM.sv
+../../../ni-cores/syn/random_uniform/src/vhd/random_uniform.vhd
+sim/axi_ram.v
+../../../ni-cores/syn/DDR_RING_BUFFER/ootbtb/ootbtb.sv

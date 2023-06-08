@@ -1,0 +1,25 @@
+// Register map definition for the EXAMPLE design
+
+`include "common.rdl"
+`include "example_regs.rdl"
+
+addrmap example_address_map {
+    desc = "The default address mapping scheme for the EXAMPLE project";
+
+    // Defaults
+    default regwidth = 32;
+    default shared = true;
+
+    // Status registers
+    `REF_SREG(VFIFO_STATUS) VFIFO_STATUS;
+    `REF_SREG(VFIFO_WPTR) VFIFO_WPTR;
+    `REF_SREG(VFIFO_AXI_CONFIG) VFIFO_AXI_CONFIG;
+    `REF_SREG(RING_BUFFER_CONFIG) RING_BUFFER_CONFIG;
+    `REF_SREG(EOS_IRQ_COUNTER) EOS_IRQ_COUNTER;
+    `REF_SREG(EOB_IRQ_COUNTER) EOB_IRQ_COUNTER;
+
+    // Control registers
+    `REF_CREG(DMA_BUFFER_BASE_ADDR) DMA_BUFFER_BASE_ADDR;
+    `REF_CREG(DMA_BUFFER_LEN) DMA_BUFFER_LEN;
+    `REF_CREG(DMA_BUFFER_ADDR_MASK) DMA_BUFFER_ADDR_MASK;
+};

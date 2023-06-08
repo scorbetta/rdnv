@@ -1,0 +1,4 @@
+${UVM_MARKET}/axi4/axi4_pkg.sv
+/home/utente/projects/sandbox/uvm/design_examples/DDR_RING_BUFFER/../../../ni-cores/syn/DDR_RING_BUFFER/src/sv/SIMPLE_FIFO.sv
+/home/utente/projects/sandbox/uvm/design_examples/DDR_RING_BUFFER/../../../ni-cores/syn/DDR_RING_BUFFER/src/sv/AXIVFIFO.sv
+/home/utente/projects/sandbox/uvm/design_examples/DDR_RING_BUFFER/../../../ni-cores/syn/DDR_RING_BUFFER/src/sv/DDR_RING_BUFFER.sv

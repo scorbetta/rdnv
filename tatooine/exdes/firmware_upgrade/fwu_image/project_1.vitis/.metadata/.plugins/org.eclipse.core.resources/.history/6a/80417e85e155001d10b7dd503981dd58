@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="ASCII"?>
+<systemproject:SystemProject xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:sdkproject="http://www.xilinx.com/sdkproject" xmlns:systemproject="http://www.xilinx.com/systemproject" name="ni_fwu_system" platform="/home/utente/projects/ni-cores/exdes/firmware_upgrade/fwu_image/project_1.vitis/FPGA_TOP/export/FPGA_TOP/FPGA_TOP.xpfm" platformUID="xilinx:kcu105::0.0(custom)" sysConfig="FPGA_TOP" runtime="cpp" rootFSLocation="" linuxImage="" sysroot="">
+  <configuration name="Debug" id="com.xilinx.sdx.system.managedbuilder.debugConfiguration.1852909003">
+    <configBuildOptions xsi:type="systemproject:SystemOptions">
+      <applications name="ni_fwu" domainName="standalone_UBLAZE_HIER_microblaze_0" domainPrettyName="standalone_UBLAZE_HIER_microblaze_0" appBuildConfig="Debug"/>
+      <options xsi:type="sdkproject:SdkOptions" generateSdCard="true"/>
+    </configBuildOptions>
+    <lastBuildOptions xsi:type="systemproject:SystemOptions">
+      <applications name="ni_fwu" domainName="standalone_UBLAZE_HIER_microblaze_0" domainPrettyName="standalone_UBLAZE_HIER_microblaze_0" appBuildConfig="Debug"/>
+      <options xsi:type="sdkproject:SdkOptions" generateSdCard="true"/>
+    </lastBuildOptions>
+  </configuration>
+  <configuration name="Release" id="com.xilinx.sdx.system.managedbuilder.releaseConfiguration.750946935">
+    <configBuildOptions xsi:type="systemproject:SystemOptions">
+      <applications name="ni_fwu" domainName="standalone_UBLAZE_HIER_microblaze_0" domainPrettyName="standalone_UBLAZE_HIER_microblaze_0" appBuildConfig="Release"/>
+      <options xsi:type="sdkproject:SdkOptions" generateSdCard="true"/>
+    </configBuildOptions>
+  </configuration>
+</systemproject:SystemProject>

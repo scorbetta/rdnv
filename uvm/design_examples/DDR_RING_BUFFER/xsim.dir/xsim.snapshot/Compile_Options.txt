@@ -1,0 +1,1 @@
+--nolog --debug "all" --timescale "1ns/100ps" -L "unisims_ver" -L "unimacro_ver" -L "secureip" -L "uvm" --prj "ddr_ring_buffer_uvm_tb.prj" --define "DATA_WIDTH=64" --define "ADDR_WIDTH=16" --define "DRAIN_BURST_LEN=256" --snapshot "xsim.snapshot" "xil_defaultlib.ddr_ring_buffer_uvm_tb" 

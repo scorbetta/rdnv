@@ -1,0 +1,3 @@
+src/sv/SIMPLE_FIFO.sv
+src/sv/AXIVFIFO.sv
+src/sv/DDR_RING_BUFFER.sv
