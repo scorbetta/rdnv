@@ -15,3 +15,4 @@ sudo
 iproute2
 curl
 openssh-client
+wget

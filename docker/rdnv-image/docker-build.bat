@@ -22,10 +22,9 @@ for /f %%d in ('%_cmd%') do (
 )
 
 :: Build image from scratch
-docker build --no-cache -t %image_name% . -f %dockerfile%
+docker build --no-cache -t %image_name% -f %dockerfile% .
 
 :: Start container
-docker run -dit --name %container_name% %image_name%
-
-:: Open a TTY session in the container
-docker exec -it %container_name% /bin/bash
+docker run -dit --name %container_name% --volume docker-volume:/home/scorbetta/docker-volume %image_name%
+echo "info: You can now log into the container"
+echo "info:    docker exec -it %container_name% /bin/bash"
