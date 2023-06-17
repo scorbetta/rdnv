@@ -8,18 +8,21 @@ RUN useradd -rm -d /home/scorbetta -s /bin/bash -u 1000 scorbetta
 RUN usermod -aG sudo scorbetta
 RUN echo "scorbetta:scorbetta" | chpasswd
 
+# Setup timezone
+RUN ln -sf /usr/share/zoneinfo/Europe/Rome /etc/localtime
+
 # Update repositories and install packages
 RUN apt-get update
-#    GCC and Software compilation essentials
-RUN apt-get install -y gcc g++ automake build-essential vim cscope bison flex
-#    Python
-RUN apt-get install -y python3 python3-pip
-#    Icarus Verilog
-RUN apt-get install -y iverilog
-#    git
-RUN apt-get install -y git
-#    Miscellanea
-RUN apt-get install -y sudo iproute2 curl openssh-client
+RUN xargs apt-get install -y < aptitude.list
+
+# Modelsim is a 32-bit binary installation. The following recipe comes from
+# https://gist.github.com/Razer6/cafc172b5cffae189b4ecda06cf6c64f
+RUN dpkg --add-architecture i386
+RUN apt-get update
+RUN apt-get install libc6:i386 libncurses5:i386 libstdc++6:i386 lib32ncurses6 libxft2 libxft2:i386 libxext6 libxext6:i386
+RUN wget https://download.altera.com/akdlm/software/acdsinst/20.1std.1/720/ib_installers/ModelSimSetup-20.1.1.720-linux.run
+RUN chmod a+x ModelSimSetup-20.1.1.720-linux.run
+RUN ./ModelSimSetup-20.1.1.720-linux.run --mode unattended --installdir /opt --accept_eula 1
 
 # Switch to and setup system for new user
 USER scorbetta
@@ -37,5 +40,11 @@ RUN chmod 600 ~/.ssh/id_rsa
 RUN --mount=type=ssh git clone git@bitbucket.org:scorbetta/linux-cfg.git
 RUN cd linux-cfg && source deployme.sourceme && cd ~
 
+# Add image-specific shell configuration
+RUN echo "" >> ~/.bashrc
+RUN echo "#### Image-specific environment configuration ################" >> ~/.bashrc
+RUN echo "export MODELSIM_ASE_ROOT=/opt/modelsim_ase/bin" >> ~/.bashrc
+RUN echo "export PATH=\${PATH}:\${MODELSIM_ASE_ROOT}" >> ~/.bashrc
+
 # Run shell
-CMD ["/bin/bash"]
+MD ["/bin/bash"]
