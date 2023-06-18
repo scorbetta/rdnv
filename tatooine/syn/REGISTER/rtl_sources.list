@@ -1,1 +1,2 @@
 src/sv/REGISTER.sv
+../DFF/src/sv/DFF.sv

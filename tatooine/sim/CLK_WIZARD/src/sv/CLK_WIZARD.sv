@@ -3,22 +3,24 @@
 module CLK_WIZARD
 #(
     // Clock period [ns]
-    parameter   CLK_PERIOD  =   10  ,
+    parameter CLK_PERIOD    = 10,
     // Number of cycles reset clear is delayed
-    parameter   RESET_DELAY =   4   ,
+    parameter RESET_DELAY   = 4,
     // Initial phase [ns]
-    parameter   INIT_PHASE  =   0   
+    parameter INIT_PHASE    = 0,
+    // Number of clock cycles before forcing simulation end
+    parameter MAX_SIM_TIME  = 1e6
 )
 (
-    output  USER_CLK    ,
-    output  USER_RST    ,
-    output  USER_RSTN   
+    output  USER_CLK,
+    output  USER_RST,
+    output  USER_RSTN
 );
 
     // Internals
-    logic   user_clk    ;
-    logic   user_rstn   ;
-    logic   user_rst    ;
+    logic   user_clk;
+    logic   user_rstn;
+    logic   user_rst;
 
     initial begin
         user_clk <= 1'b0;
@@ -38,8 +40,14 @@ module CLK_WIZARD
 
     assign user_rstn = ~user_rst;
 
+    // Force simulation end
+    initial begin
+        repeat(MAX_SIM_TIME) @(posedge user_clk);
+        $finish;
+    end
+
     // Pinouts
-    assign USER_CLK = user_clk;
-    assign USER_RST = user_rst;
-    assign USER_RSTN = user_rstn;
+    assign USER_CLK     = user_clk;
+    assign USER_RST     = user_rst;
+    assign USER_RSTN    = user_rstn;
 endmodule

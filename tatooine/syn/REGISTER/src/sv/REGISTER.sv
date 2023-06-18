@@ -1,28 +1,26 @@
 `timescale 1ns/100ps
 
+// A register of configurable width made of D-type flops w/ active-low reset
 module REGISTER
 #(
-    parameter DATA_WIDTH    = 1,
-    parameter RESET_VALUE   = 1'b0
+    parameter DATA_WIDTH = 1
 )
 (
     input                   CLK,
     input                   RSTN,
-    input                   CE,
     input [DATA_WIDTH-1:0]  DATA_IN,
     output [DATA_WIDTH-1:0] DATA_OUT
 );
 
-    logic [DATA_WIDTH-1:0]  data_out;
-
-    always_ff @(posedge CLK) begin
-        if(!RSTN) begin
-            data_out <= RESET_VALUE;
+    // Generate the register the structural way
+    generate
+        for(genvar gdx = 0; gdx < DATA_WIDTH; gdx++) begin
+            DFF DFF (
+                .CLK    (CLK),
+                .RSTN   (RSTN),
+                .D      (DATA_IN[gdx]),
+                .Q      (DATA_OUT[gdx])
+            );
         end
-        else if(CE) begin
-            data_out <= DATA_IN;
-        end
-    end
-
-    assign DATA_OUT = data_out;
+    endgenerate
 endmodule
