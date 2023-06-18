@@ -1,4 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<session version="1.0">
-<refactoring comment="Rename resource &apos;ni_fwu/src/fw_update.c&apos; to &apos;ni_fwu.c&apos;" description="Rename resource &apos;fw_update.c&apos;" flags="7" id="org.eclipse.ltk.core.refactoring.rename.resource" input="src/fw_update.c" name="ni_fwu.c" stamp="1666620166374" updateReferences="true"/>
-</session>
