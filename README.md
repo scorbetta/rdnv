@@ -4,20 +4,14 @@ contains snippets, tools, design examples, methodology insights and lots more fo
 design tasks.
 
 # Contents #
-[d] docker/
-    Contains docker spec files (Dockerfiles) for image and containers running under docker desktop
-
 [f] README.md
     This file
 
 [f] LICENCE
     Licence statement
 
-[d] grogu/
-    An RDL-based tool for registers and register maps management
+[d] dooku/
+    The documentation system, including grogu
 
 [d] tatooine/
     The RTL design market
-
-[d] uvm/
-    The UVM database
