@@ -1,2 +1,2 @@
-src/sv/REGISTER.sv
-../DFF/src/sv/DFF.sv
+rtl/sv/REGISTER.sv
+../DFF/rtl/sv/DFF.sv
