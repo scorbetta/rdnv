@@ -2,28 +2,19 @@
 
 # Create list of files to simulate from the  *_sources.list  files
 
+# Do not change this value
+SED_PREFIX=..\\/rtl\\/
+
 # Read in configuration w/ defaults
-SED_PREFIX=..\\/
 SEED=$( date +%N )
 TOP="ootbtb"
 WAVES=0
 
 if [ -e config.ini ]
 then
-    if [ $( grep -w "SEED" config.ini ) != "" ]
-    then
-        SEED=$( grep -w "SEED" config.ini | cut -d '=' -f 2 )
-    fi
-
-    if [ $( grep -w "TOP" config.ini ) != "" ]
-    then
-        TOP=$( grep -w "TOP" config.ini | cut -d '=' -f 2 )
-    fi
-
-    if [ $( grep -w "WAVES" config.ini ) != "" ]
-    then
-        TOP=$( grep -w "WAVES" config.ini | cut -d '=' -f 2 )
-    fi
+    set -o allexport
+    source config.ini
+    set +o allexport
 fi
 
 # Search for files
@@ -48,17 +39,17 @@ do
 done
 
 # Import ootbtb files
-for file in $( grep -E "\.sv$" ootbtb_sources.list )
+for file in $( grep -E "\.sv$" sim_sources.list )
 do
     SRCS_SV+=( ${file} )
 done
 
-for file in $( grep -E "\.v$" ootbtb_sources.list )
+for file in $( grep -E "\.v$" sim_sources.list )
 do
     SRCS_V+=( ${file} )
 done
 
-for file in $( grep -E "\.vhd$" ootbtb_sources.list )
+for file in $( grep -E "\.vhd$" sim_sources.list )
 do
     SRCS_VHDL+=( ${file} )
 done

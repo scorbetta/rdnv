@@ -54,7 +54,9 @@ function get_simulator {
     # Unless configuration from user overrides it
     if [ -e "config.ini" ]
     then
-        simulator=$( grep -w "SIMULATOR" config.ini | cut -d '=' -f 2 )
+        set -o allexport
+        source config.ini
+        set +o allexport
     fi
 }
 

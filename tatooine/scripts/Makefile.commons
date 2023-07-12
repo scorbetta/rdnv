@@ -1,0 +1,82 @@
+# PHONY targets
+.PHONY: all sim comp clean waves
+
+# Prefix for change of hierarchy. Do *not* modify this line!
+SED_PREFIX = \.\.\/
+
+# RTL and simulation files
+SRCS_SV != grep -E "\.sv$$" rtl_sources.list | sed "s/^/$(SED_PREFIX)/" ; grep -E "\.sv$$" sim_sources.list
+SRCS_V != grep -E "\.v$$" rtl_sources.list | sed 's/^/$(SED_PREFIX)/' ; grep -E "\.v$$" sim_sources.list
+SRCS_VHDL != grep -E "\.vhd$$" rtl_sources.list | sed "s/^/$(SED_PREFIX)/g"; grep -E "\.vhd$$" sim_sources.list
+
+# Options
+LIBS=
+VLOG_COMP_OPTS = -incr +incdir+../src/includes +incdir+../ -override_timescale 1ns/100ps
+VHDL_COMP_OPTS = -2008
+SIM_OPTS = -c
+
+# Top-level name
+TOP = ootbtb
+SEED != date +%N
+
+# Colored output
+BLUE = \033[0;34m
+RED = \033[0;31m
+DEFAULT = \033[0m
+
+# Prepare commands to execute
+V_CMD_LINE := vlog $(VLOG_COMP_OPTS) $(SRCS_V)
+SV_CMD_LINE := vlog -sv $(VLOG_COMP_OPTS) $(SRCS_SV)
+VHDL_CMD_LINE := vcom $(VHDL_COMP_OPTS) $(SRCS_VHDL)
+SIM_CMD_LINE := vsim $(SIM_OPTS) -do modelsim.run ootbtb
+
+# Default target is to run 'em all
+all: sim
+
+comp: .comp_v.timestamp .comp_sv.timestamp .comp_vhdl.timestamp
+
+sim: comp
+	@echo
+	@echo "$(BLUE)sim: $(SIM_CMD_LINE)$(DEFAULT)"
+	eval $(SIM_CMD_LINE)
+
+ifneq ($(SRCS_V),)
+.comp_v.timestamp: $(SRCS_V)
+	@echo
+	@echo "$(BLUE)comp: $(V_CMD_LINE)$(DEFAULT)"
+	eval $(V_CMD_LINE)
+	touch .comp_v.timestamp
+else
+.comp_v.timestamp: $(SRCS_V)
+	touch .comp_v.timestamp
+endif
+
+ifneq ($(SRCS_SV),)
+.comp_sv.timestamp: $(SRCS_SV)
+	@echo
+	@echo "$(BLUE)comp: $(SV_CMD_LINE)$(DEFAULT)"
+	@echo "$(BLUE)comp: $(SRCS_VHDL)$(DEFAULT)"
+	eval $(SV_CMD_LINE)
+	touch .comp_sv.timestamp
+else
+.comp_sv.timestamp: $(SRCS_SV)
+	touch .comp_sv.timestamp
+endif
+
+ifneq ($(SRCS_VHDL),)
+.comp_vhdl.timestamp: $(SRCS_VHDL)
+	@echo
+	@echo "$(BLUE)comp: $(VHDL_CMD_LINE)$(DEFAULT)"
+	eval $(VHDL_CMD_LINE)
+	touch .comp_vhdl.timestamp
+else
+.comp_vhdl.timestamp:
+	touch .comp_vhdl.timestamp
+endif
+
+waves: xsim.snapshot.wdb
+	xsim -g xsim.snapshot.wdb -t load_waves.tcl
+
+clean:
+	rm -rf *.jou *.log *.pb *.wdb xsim.dir
+	rm -rf .*.timestamp .Xil

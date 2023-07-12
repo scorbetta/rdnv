@@ -42,8 +42,8 @@ module ootbtb;
         for(int test = 1; test <= 10; test++) begin
             @(posedge clk);
             random_in <= $urandom;
-            @(posedge clk);
-            //assert (data_out == random_in) else $fatal(1, "ootbtb error");
         end
+
+        $finish;
     end
 endmodule
