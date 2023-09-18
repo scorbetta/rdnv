@@ -2,61 +2,61 @@
 
 module AXIL2NATIVE #(
     // AXI data width
-    parameter   DATA_WIDTH  =   32  ,
+    parameter   DATA_WIDTH  = 32,
     // AXI address width
-    parameter   ADDR_WIDTH  =   32  
+    parameter   ADDR_WIDTH  = 32  
 )
 (
     // AXI4 Lite interface
-    input                       AXI_ACLK    ,
-    input                       AXI_ARESETN ,
-    input [ADDR_WIDTH-1:0]      AXI_AWADDR  ,
-    input [2:0]                 AXI_AWPROT  ,
-    input                       AXI_AWVALID ,
-    output                      AXI_AWREADY ,
-    input [DATA_WIDTH-1:0]      AXI_WDATA   ,
-    input [(DATA_WIDTH/8)-1:0]  AXI_WSTRB   ,
-    input                       AXI_WVALID  ,
-    output                      AXI_WREADY  ,
-    output [1:0]                AXI_BRESP   ,
-    output                      AXI_BVALID  ,
-    input                       AXI_BREADY  ,
-    input [ADDR_WIDTH-1:0]      AXI_ARADDR  ,
-    input [2:0]                 AXI_ARPROT  ,
-    input                       AXI_ARVALID ,
-    output                      AXI_ARREADY ,
-    output [DATA_WIDTH-1:0]     AXI_RDATA   ,
-    output [1:0]                AXI_RRESP   ,
-    output                      AXI_RVALID  ,
-    input                       AXI_RREADY  ,
+    input                       AXI_ACLK,
+    input                       AXI_ARESETN,
+    input [ADDR_WIDTH-1:0]      AXI_AWADDR,
+    input [2:0]                 AXI_AWPROT,
+    input                       AXI_AWVALID,
+    output                      AXI_AWREADY,
+    input [DATA_WIDTH-1:0]      AXI_WDATA,
+    input [(DATA_WIDTH/8)-1:0]  AXI_WSTRB,
+    input                       AXI_WVALID,
+    output                      AXI_WREADY,
+    output [1:0]                AXI_BRESP,
+    output                      AXI_BVALID,
+    input                       AXI_BREADY,
+    input [ADDR_WIDTH-1:0]      AXI_ARADDR,
+    input [2:0]                 AXI_ARPROT,
+    input                       AXI_ARVALID,
+    output                      AXI_ARREADY,
+    output [DATA_WIDTH-1:0]     AXI_RDATA,
+    output [1:0]                AXI_RRESP,
+    output                      AXI_RVALID,
+    input                       AXI_RREADY,
     // Native interface
-    output                      WEN         ,
-    output [ADDR_WIDTH-1:0]     WADDR       ,
-    output [DATA_WIDTH-1:0]     WDATA       ,
-    output                      WACK        ,
-    output                      REN         ,
-    output [ADDR_WIDTH-1:0]     RADDR       ,
-    input [DATA_WIDTH-1:0]      RDATA       ,
-    input                       RVALID      
+    output                      WEN,
+    output [ADDR_WIDTH-1:0]     WADDR,
+    output [DATA_WIDTH-1:0]     WDATA,
+    output                      WACK,
+    output                      REN,
+    output [ADDR_WIDTH-1:0]     RADDR,
+    input [DATA_WIDTH-1:0]      RDATA,
+    input                       RVALID
 );
 
     // Internal connections
     typedef enum { READ, WRITE_RESP, WRITE, IDLE } state_t;
-    state_t                 curr_state  ;
-    logic                   axi_awready ;
-    logic                   axi_wready  ;
-    logic [1:0]             axi_bresp   ;
-    logic                   axi_bvalid  ;
-    logic                   axi_arready ;
-    logic [DATA_WIDTH-1:0]  axi_rdata   ;
-    logic [1:0]             axi_rresp   ;
-    logic                   axi_rvalid  ;
-    logic                   wen         ;
-    logic [ADDR_WIDTH-1:0]  waddr       ;
-    logic [DATA_WIDTH-1:0]  wdata       ;
-    logic                   wack        ;
-    logic                   ren         ;
-    logic [ADDR_WIDTH-1:0]  raddr       ;
+    state_t                 curr_state;
+    logic                   axi_awready;
+    logic                   axi_wready;
+    logic [1:0]             axi_bresp;
+    logic                   axi_bvalid;
+    logic                   axi_arready;
+    logic [DATA_WIDTH-1:0]  axi_rdata;
+    logic [1:0]             axi_rresp;
+    logic                   axi_rvalid;
+    logic                   wen;
+    logic [ADDR_WIDTH-1:0]  waddr;
+    logic [DATA_WIDTH-1:0]  wdata;
+    logic                   wack;
+    logic                   ren;
+    logic [ADDR_WIDTH-1:0]  raddr;
 
     // A single FSM simplifies design and verification
     always_ff @(posedge AXI_ACLK) begin
@@ -134,18 +134,18 @@ module AXIL2NATIVE #(
     end
 
     // Pinout assignments
-    assign AXI_AWREADY  = axi_awready   ;
-    assign AXI_WREADY   = axi_wready    ;
-    assign AXI_BRESP    = axi_bresp     ;
-    assign AXI_BVALID   = axi_bvalid    ;
-    assign AXI_ARREADY  = axi_arready   ;
-    assign AXI_RDATA    = axi_rdata     ;
-    assign AXI_RRESP    = axi_rresp     ;
-    assign AXI_RVALID   = axi_rvalid    ;
-    assign WEN          = wen           ;
-    assign WADDR        = waddr         ;
-    assign WDATA        = wdata         ;
-    assign WACK         = wack          ;
-    assign REN          = ren           ;
-    assign RADDR        = raddr         ;
+    assign AXI_AWREADY  = axi_awready;
+    assign AXI_WREADY   = axi_wready;
+    assign AXI_BRESP    = axi_bresp;
+    assign AXI_BVALID   = axi_bvalid;
+    assign AXI_ARREADY  = axi_arready;
+    assign AXI_RDATA    = axi_rdata;
+    assign AXI_RRESP    = axi_rresp;
+    assign AXI_RVALID   = axi_rvalid;
+    assign WEN          = wen;
+    assign WADDR        = waddr;
+    assign WDATA        = wdata;
+    assign WACK         = wack;
+    assign REN          = ren;
+    assign RADDR        = raddr;
 endmodule
