@@ -1,0 +1,3 @@
+sv/DELTA_REG.sv
+../../RO_REG/rtl/sv/RO_REG.sv
+../../RW_REG/rtl/sv/RW_REG.sv

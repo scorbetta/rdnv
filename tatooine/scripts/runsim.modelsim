@@ -31,7 +31,7 @@ fi
 # Run simulation
 if [ ${WAVES} -eq 1 ]
 then
-    do_cmd="vcd file ${TOP}.vcd; vcd add ${TOP}/*; run -all"
+    do_cmd="vcd file ${TOP}.vcd; vcd add -l 0 *; run -all"
 else
     do_cmd="run -all"
 fi

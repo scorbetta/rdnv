@@ -10,8 +10,5 @@ design tasks.
 [f] LICENCE
     Licence statement
 
-[d] dooku/
-    The documentation system, including grogu
-
 [d] tatooine/
     The RTL design market
