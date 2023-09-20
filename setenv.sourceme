@@ -1,4 +1,3 @@
-
 #---- SESSION CONFIGURATION -----------------------------------------------------------------------
 
 # Root folder
@@ -6,6 +5,9 @@ ORGANA_ROOT=${PWD}
 
 # Scripts location
 ORGANA_SCRIPTS=${ORGANA_ROOT}/scripts
+
+# Market location
+TATOOINE_ROOT=${ORGANA_ROOT}/tatooine
 
 
 #---- COLORED OUTPUT CONFIGURATION ----------------------------------------------------------------
