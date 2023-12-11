@@ -1,3 +1,5 @@
+`default_nettype none
+
 // A Delta register is a Read-only register that generates an output signal once its value changes.
 // Once read, its state is reset
 module DELTA_REG #(
@@ -5,18 +7,18 @@ module DELTA_REG #(
     parameter HAS_RESET     = 1
 )
 (
-    input                   CLK,
-    input                   RSTN,
-    input                   READ_EVENT,
-    input [DATA_WIDTH-1:0]  VALUE_IN,
-    output                  VALUE_CHANGE,
-    output [DATA_WIDTH-1:0] VALUE_OUT
+    input wire                      CLK,
+    input wire                      RSTN,
+    input wire                      READ_EVENT,
+    input wire [DATA_WIDTH-1:0]     VALUE_IN,
+    output wire                     VALUE_CHANGE,
+    output wire [DATA_WIDTH-1:0]    VALUE_OUT
 );
 
-    logic [DATA_WIDTH-1:0]  value_diff;
-    logic                   delta_event;
-    logic                   value_change;
-    logic [DATA_WIDTH-1:0]  reg_value;
+    wire [DATA_WIDTH-1:0]   value_diff;
+    wire                    delta_event;
+    reg                     value_change;
+    wire [DATA_WIDTH-1:0]   reg_value;
 
     // Read-only register
     RO_REG #(
@@ -35,7 +37,7 @@ module DELTA_REG #(
     assign delta_event  = |value_diff;
 
     // Latch the delta event until next  READ_EVENT  is seen
-    always_ff @(posedge CLK) begin
+    always @(posedge CLK) begin
         if(!RSTN) begin
             value_change <= 1'b0;
         end
@@ -51,3 +53,5 @@ module DELTA_REG #(
     assign VALUE_CHANGE = value_change;
     assign VALUE_OUT    = reg_value;
 endmodule
+
+`default_nettype wire

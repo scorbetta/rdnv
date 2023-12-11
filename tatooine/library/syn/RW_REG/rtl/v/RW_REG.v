@@ -1,3 +1,5 @@
+`default_nettype none
+
 // A simple register with an accessible Write signal. The  WEN  signal can be connected to an
 // external bridge, so that Software can overwrite this register via AXI bus
 module RW_REG #(
@@ -7,15 +9,15 @@ module RW_REG #(
     parameter HAS_RESET     = 1
 )
 (
-    input                   CLK,
-    input                   RSTN,
-    input                   WEN,
-    input [DATA_WIDTH-1:0]  VALUE_IN,
-    output [DATA_WIDTH-1:0] VALUE_OUT
+    input wire                      CLK,
+    input wire                      RSTN,
+    input wire                      WEN,
+    input wire [DATA_WIDTH-1:0]     VALUE_IN,
+    output wire [DATA_WIDTH-1:0]    VALUE_OUT
 );
 
-    logic [DATA_WIDTH-1:0]  reg_value;
-    logic                   reg_rstn;
+    reg [DATA_WIDTH-1:0]    reg_value;
+    wire                    reg_rstn;
 
     // Filter input reset when  HAS_RESET  is cleared
     generate
@@ -27,7 +29,7 @@ module RW_REG #(
         end
     endgenerate
 
-    always_ff @(posedge CLK) begin
+    always @(posedge CLK) begin
         if(!reg_rstn) begin
             reg_value <= {DATA_WIDTH{1'b0}};
         end
@@ -39,3 +41,5 @@ module RW_REG #(
     // Pinout
     assign VALUE_OUT = reg_value;
 endmodule
+
+`default_nettype wire

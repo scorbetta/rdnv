@@ -1,3 +1,5 @@
+`default_nettype none
+
 // A Read-only register doesn't have accessible Write signal. It just mirrors input value driven by
 // the Hardware logic. Software can only read this value through the bridge that samples  VALUE_OUT  
 module RO_REG #(
@@ -5,10 +7,10 @@ module RO_REG #(
     parameter HAS_RESET     = 1
 )
 (
-    input                   CLK,
-    input                   RSTN,
-    input [DATA_WIDTH-1:0]  VALUE_IN,
-    output [DATA_WIDTH-1:0] VALUE_OUT
+    input wire                      CLK,
+    input wire                      RSTN,
+    input wire [DATA_WIDTH-1:0]     VALUE_IN,
+    output wire [DATA_WIDTH-1:0]    VALUE_OUT
 );
 
     RW_REG #(
@@ -23,3 +25,5 @@ module RO_REG #(
         .VALUE_OUT  (VALUE_OUT)
     );
 endmodule
+
+`default_nettype wire
