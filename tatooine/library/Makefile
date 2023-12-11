@@ -3,11 +3,13 @@
 # Select DUT
 DUT ?= AXIL2NATIVE
 
-# Select design flavor
-TOPLEVEL_LANG ?= verilog
+ver:
+	$(MAKE) -C syn/$(DUT)/ver
 
 sim:
-	$(MAKE) -C syn/$(DUT)/ver TOPLEVEL_LANG=$(TOPLEVEL_LANG)
+	$(MAKE) -C syn/$(DUT)/sim
 
 clean:
-	$(MAKE) purge -C syn/$(DUT)/ver TOPLEVEL_LANG=$(TOPLEVEL_LANG)
+	$(MAKE) purge -C syn/$(DUT)/ver
+	$(MAKE) purge -C syn/$(DUT)/sim
+	find . -name __pycache__ -exec rm -fR {} +

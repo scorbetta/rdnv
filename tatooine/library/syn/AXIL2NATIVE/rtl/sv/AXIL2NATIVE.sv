@@ -1,5 +1,3 @@
-`timescale 1ns/100ps
-
 module AXIL2NATIVE #(
     // AXI data width
     parameter   DATA_WIDTH  = 32,
@@ -41,7 +39,7 @@ module AXIL2NATIVE #(
 );
 
     // Internal connections
-    typedef enum { READ, WRITE_RESP, WRITE, IDLE } state_t;
+    typedef enum logic [1:0] { READ, WRITE_RESP, WRITE, IDLE } state_t;
     state_t                 curr_state;
     logic                   axi_awready;
     logic                   axi_wready;
@@ -60,7 +58,7 @@ module AXIL2NATIVE #(
 
     // A single FSM simplifies design and verification
     always_ff @(posedge AXI_ACLK) begin
-        if(AXI_ARESETN == 1'b0) begin
+        if(!AXI_ARESETN) begin
             axi_awready <= 1'b0;
             axi_wready <= 1'b0;
             wen <= 1'b0;
@@ -81,11 +79,11 @@ module AXIL2NATIVE #(
 
             case(curr_state)
                 IDLE : begin
-                    if(AXI_AWVALID == 1'b1) begin
+                    if(AXI_AWVALID) begin
                         axi_awready <= 1'b1;
                         curr_state <= WRITE;
                     end
-                    else if(AXI_ARVALID == 1'b1) begin
+                    else if(AXI_ARVALID) begin
                         axi_arready <= 1'b1;
                         ren <= 1'b1;
                         raddr <= AXI_ARADDR;
@@ -94,13 +92,13 @@ module AXIL2NATIVE #(
                 end
 
                 WRITE : begin
-                    if(AXI_WVALID == 1'b1 && axi_wready == 1'b0) begin
+                    if(AXI_WVALID && !axi_wready) begin
                         wen <= 1'b1;
                         wdata <= AXI_WDATA;
                         waddr <= AXI_AWADDR;
                         axi_wready <= 1'b1;
                     end
-                    else if(AXI_WVALID == 1'b1 && axi_wready == 1'b1) begin
+                    else if(AXI_WVALID && axi_wready) begin
                         axi_bvalid <= 1'b1;
                         axi_bresp <= 2'b00;
                         curr_state <= WRITE_RESP;
@@ -111,7 +109,7 @@ module AXIL2NATIVE #(
                 end
 
                 WRITE_RESP : begin
-                    if(axi_bvalid == 1'b1 && AXI_BREADY == 1'b1) begin
+                    if(axi_bvalid && AXI_BREADY) begin
                         axi_bvalid <= 1'b0;
                         wack <= 1'b1;
                         curr_state <= IDLE;
@@ -119,12 +117,12 @@ module AXIL2NATIVE #(
                 end
 
                 READ : begin
-                    if(RVALID == 1'b1 && axi_rvalid == 1'b0) begin
+                    if(RVALID && !axi_rvalid) begin
                         axi_rvalid <= 1'b1;
                         axi_rdata <= RDATA;
                         axi_rresp <= 2'b00;
                     end
-                    else if(axi_rvalid == 1'b1 && AXI_RREADY == 1'b1) begin
+                    else if(axi_rvalid && AXI_RREADY) begin
                         axi_rvalid <= 1'b0;
                         curr_state <= IDLE;
                     end

@@ -1,0 +1,20 @@
+# Prepare golden design (Verilog)
+read_verilog ../rtl/v/AXIL2NATIVE.v
+prep -flatten -top AXIL2NATIVE
+splitnets -ports
+design -stash gold
+
+# Prepare silver design (SystemVerilog)
+read_verilog -sv ../rtl/sv/AXIL2NATIVE.sv
+prep -top AXIL2NATIVE
+splitnets -ports
+design -stash gate
+
+# Equivalence checking
+design -copy-from gold -as gold AXIL2NATIVE
+design -copy-from gate -as gate AXIL2NATIVE
+equiv_make gold gate equiv
+prep -flatten -top equiv
+equiv_simple -seq 5 equiv
+equiv_induct -seq 5 equiv
+equiv_status -assert

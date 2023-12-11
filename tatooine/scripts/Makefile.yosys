@@ -1,0 +1,11 @@
+.PHONY: lec clean
+
+default: lec
+
+lec: lec.log
+
+lec.log: lec.ys
+	yosys -l lec.log lec.ys
+
+clean:
+	rm -f lec.log
