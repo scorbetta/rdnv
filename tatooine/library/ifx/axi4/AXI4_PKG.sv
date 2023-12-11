@@ -307,14 +307,23 @@ interface axi4l_if
         input  rready
     );
 
-    // Zero out all control signals
-    task set_idle();
-        @(posedge aclk);
+    // Zero out all control signals of a Master interface
+    task set_master_idle();
         awvalid <= 1'b0;
         wvalid <= 1'b0;
         bready <= 1'b0;
         arvalid <= 1'b0;
         rready <= 1'b0;
+        @(posedge aclk);
+    endtask
+
+    // Zero out all control signals of a Slave interface
+    task set_slave_idle();
+        awready <= 1'b0;
+        wready <= 1'b0;
+        bvalid <= 1'b0;
+        arready <= 1'b0;
+        rvalid <= 1'b0;
     endtask
 
     // Write access
@@ -397,7 +406,7 @@ interface axi4l_if
                     if(rvalid && rready) break;
                 end
 
-                read_data = new [read_data.size()+1](read_data);
+                read_data = new [1](read_data);
                 read_data[0] = rdata;
 
                 rready <= 1'b0;

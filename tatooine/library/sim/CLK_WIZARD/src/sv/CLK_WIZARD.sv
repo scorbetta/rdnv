@@ -1,5 +1,3 @@
-`timescale 1ns/100ps
-
 module CLK_WIZARD
 #(
     // Clock period [ns]
@@ -7,13 +5,14 @@ module CLK_WIZARD
     // Number of cycles reset clear is delayed
     parameter RESET_DELAY   = 4,
     // Initial phase [ns]
-    parameter INIT_PHASE    = 0,
-    // Number of clock cycles before forcing simulation end
-    parameter MAX_SIM_TIME  = 1e6
+    parameter INIT_PHASE    = 0
 )
 (
+    // Clock signal
     output  USER_CLK,
+    // Active-high reset signal
     output  USER_RST,
+    // Active-low reset signal
     output  USER_RSTN
 );
 
@@ -39,12 +38,6 @@ module CLK_WIZARD
     end
 
     assign user_rstn = ~user_rst;
-
-    // Force simulation end
-    initial begin
-        repeat(MAX_SIM_TIME) @(posedge user_clk);
-        $finish;
-    end
 
     // Pinouts
     assign USER_CLK     = user_clk;
