@@ -1,6 +1,0 @@
-<testsuites name="results">
-  <testsuite name="all" package="all">
-    <property name="random_seed" value="1702294064" />
-    <testcase name="test_axil2native" classname="test_axil2native" file="/home/scorbetta/work/rdnv/tatooine/library/syn/AXIL2NATIVE/ver/test_axil2native.py" lineno="30" time="3.4335455894470215" sim_time_ns="170070.001" ratio_time="49531.889578722636" />
-  </testsuite>
-</testsuites>

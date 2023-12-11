@@ -1,5 +1,3 @@
-`timescale 1ns/100ps
-
 module EDGE_DETECTOR (
     input   CLK,
     input   RSTN,
