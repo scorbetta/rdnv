@@ -28,3 +28,4 @@ include $(shell cocotb-config --makefiles)/Makefile.sim
 # User-defined clean all
 purge: clean
 	find . -name __pycache__ -exec rm -fR {} +
+	rm -f results.xml
