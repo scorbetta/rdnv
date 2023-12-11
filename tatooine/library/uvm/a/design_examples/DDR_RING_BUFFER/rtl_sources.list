@@ -1,4 +1,0 @@
-${UVM_MARKET}/axi4/axi4_pkg.sv
-../../../ni-cores/syn/DDR_RING_BUFFER/src/sv/AXIVFIFO.sv
-../../../ni-cores/syn/DDR_RING_BUFFER/src/sv/SIMPLE_FIFO.sv
-../../../ni-cores/syn/DDR_RING_BUFFER/src/sv/DDR_RING_BUFFER.sv

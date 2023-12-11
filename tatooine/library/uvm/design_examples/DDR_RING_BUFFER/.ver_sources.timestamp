@@ -1,5 +1,0 @@
-${UVM_MARKET}/axi4/axi4s/axi4s_agent_pkg.sv
-${UVM_MARKET}/axi4/axi4s/checkers/Axi4StreamPC.sv
-/home/utente/projects/sandbox/uvm/design_examples/DDR_RING_BUFFER/ver/ddr_ring_buffer_ver_pkg.sv
-/home/utente/projects/sandbox/uvm/design_examples/DDR_RING_BUFFER/sim/axi_ram.v
-/home/utente/projects/sandbox/uvm/design_examples/DDR_RING_BUFFER/ver/ddr_ring_buffer_uvm_tb.sv
