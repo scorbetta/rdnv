@@ -1,4 +1,7 @@
-site_name: My Docs
+site_name: The one-stop shop for research, design and verification
+
+theme:
+  name: terminal
 
 plugin:
   - search

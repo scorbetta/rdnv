@@ -1,4 +1,3 @@
-# NI Cores
 This repository contains a collection of RTL design snippets, blocks, example designs, scripts and
 design tools to foster design reuse.
 
