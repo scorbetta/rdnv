@@ -5,9 +5,9 @@ build:
   tools:
     python: "3.10"
 
-python:
-  install:
-    - requirements: dooku/requirements.txt
+#python:
+#  install:
+#    - requirements: dooku/requirements.txt
 
 mkdocs:
   configuration: dooku/mkdocs.yml
