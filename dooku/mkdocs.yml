@@ -1,1 +1,5 @@
 site_name: My Docs
+
+plugin:
+  - search
+  - badges
