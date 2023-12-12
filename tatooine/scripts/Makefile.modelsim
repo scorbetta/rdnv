@@ -1,13 +1,13 @@
 # PHONY targets
 .PHONY: all sim comp clean waves
 
-# Prefix for change of hierarchy. Do *not* modify this line!
-SED_PREFIX = \.\.\/
+# RTL and simulation files
+FLAVOR ?= sv
+DUT_BASE = $(shell echo $(TATOOINE_ROOT)/library/syn/$(TOPLEVEL)/rtl/$(FLAVOR)/ | sed 's/\//\\\//g')
+SRCS = $(shell grep -E "\.[s]*v$$" $(DUT_BASE)/sources.list | sed s'/^/$(DUT_BASE)/g')
 
-# RTL and simulation filesa
 SRCS_SV != grep -E "\.sv$$" rtl_sources.list | sed "s/^/$(SED_PREFIX)/" ; grep -E "\.sv$$" sim_sources.list
 SRCS_V != grep -E "\.v$$" rtl_sources.list | sed 's/^/$(SED_PREFIX)/' ; grep -E "\.v$$" sim_sources.list
-SRCS_VHDL != grep -E "\.vhd$$" rtl_sources.list | sed "s/^/$(SED_PREFIX)/g"; grep -E "\.vhd$$" sim_sources.list
 
 # Options
 LIBS=

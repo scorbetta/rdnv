@@ -1,4 +1,0 @@
-${UVM_MARKET}/axi4/axi4s/axi4s_agent_pkg.sv
-${UVM_MARKET}/axi4/axi4s/checkers/Axi4StreamPC.sv
-ver/ddr_ring_buffer_ver_pkg.sv
-ver/ddr_ring_buffer_uvm_tb.sv

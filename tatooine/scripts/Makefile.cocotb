@@ -1,0 +1,31 @@
+# COCOTB configuration
+SIM ?= verilator
+TOPLEVEL_LANG ?= verilog
+RANDOM_SEED ?= 1697646161
+SEED ?= $(RANDOM_SEED)
+WAVES ?= 0
+
+# Top-level module determines also test name
+MODULE = test_$(shell echo $(TOPLEVEL) | tr 'A-Z' 'a-z')
+
+# Organa configuration flavor
+FLAVOR ?= v
+DUT_BASE = $(shell echo $(TATOOINE_ROOT)/library/syn/$(TOPLEVEL)/rtl/$(FLAVOR)/ | sed 's/\//\\\//g')
+
+# DUT prefix
+VERILOG_SOURCES = $(shell grep -E "\.[s]*v$$" $(DUT_BASE)/sources.list | sed s'/^/$(DUT_BASE)/g')
+
+# Verilator general options
+EXTRA_ARGS += +1364-2005ext+v --autoflush --timing
+
+ifeq ($(WAVES),1)
+EXTRA_ARGS += --trace-fst --trace-structs
+endif
+
+# Include COCOTB Makefiles
+include $(shell cocotb-config --makefiles)/Makefile.sim
+
+# User-defined clean all
+purge: clean
+	find . -name __pycache__ -exec rm -fR {} +
+	rm -f results.xml

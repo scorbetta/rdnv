@@ -3,11 +3,11 @@
 # Root folder
 ORGANA_ROOT=${PWD}
 
-# Scripts location
-ORGANA_SCRIPTS=${ORGANA_ROOT}/scripts
-
 # Market location
 TATOOINE_ROOT=${ORGANA_ROOT}/tatooine
+
+# Scripts location
+ORGANA_SCRIPTS=${TATOOINE_ROOT}/scripts
 
 
 #---- COLORED OUTPUT CONFIGURATION ----------------------------------------------------------------
