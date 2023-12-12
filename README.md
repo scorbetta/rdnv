@@ -1,4 +1,5 @@
-[![Docs Status][https://readthedocs.org/projects/docs/badge/?version=latest]][https://readthedocs.org/projects/rdnv-doc/badge/?style=flat]
+[![Licence](https://img.shields.io/badge/Licence-CERN-gold)](https://github.com/scorbetta/rdnv/blob/main/LICENCE)
+[![Read the Docs][https://readthedocs.org/projects/rdnv-doc/badge]][https://readthedocs.org/projects/rdnv-doc]
 
 The `rdnv` repository is the one-stop shop container for research, design and verification tasks in
 the Computer Architecture and Digital Design domains. It contains reusable modules, utilities,
