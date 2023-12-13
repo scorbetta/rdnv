@@ -1,5 +1,0 @@
-../../../sim/CLK_WIZARD/src/sv/CLK_WIZARD.sv
-../../../syn/REGISTER/src/sv/REGISTER.sv
-../../../syn/SDPRAM/src/sv/SDPRAM.sv
-../../../syn/REGISTER_PIPELINE/src/sv/REGISTER_PIPELINE.sv
-ootbtb.sv

@@ -1,5 +1,3 @@
-`timescale 1ns/100ps
-
 // A simple straight pipe of registers (RW_REG), aka a shift register. This can be used to help
 // timing closure in congestioned designs. However, be aware that in FPGA designs shift registers
 // are likely to be implemented in a single LUT, unless the compiler is told not to do so. When

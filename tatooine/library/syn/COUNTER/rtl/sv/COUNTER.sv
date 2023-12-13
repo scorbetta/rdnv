@@ -1,19 +1,17 @@
-`timescale 1ns/100ps
-
 // A simple and reusable free-running counter
 module COUNTER #(
     parameter WIDTH = 64
 )
 (
-    input               CLK         ,
-    input               RSTN        ,
-    input               EN          ,
-    output [WIDTH-1:0]  VALUE       ,
-    output              OVERFLOW    
+    input               CLK,
+    input               RSTN,
+    input               EN,
+    output [WIDTH-1:0]  VALUE,
+    output              OVERFLOW
 );
 
-    logic [WIDTH-1:0]   value       ;
-    logic               overflow    ;
+    logic [WIDTH-1:0]   value;
+    logic               overflow;
 
     always_ff @(posedge CLK) begin
         if(RSTN == 1'b0) begin
@@ -26,6 +24,6 @@ module COUNTER #(
     end
 
     // Pinouts
-    assign VALUE    = value     ;
-    assign OVERFLOW = overflow  ;
+    assign VALUE    = value;
+    assign OVERFLOW = overflow;
 endmodule

@@ -1,8 +1,14 @@
-site_name: The one-stop shop for research, design and verification
+site_name: rdnv
+
+plugins:
+  - search
+  - badges
+  - macros:
+      module_name: scripts/renders
+      on_error_fail: true
+      on_undefined: strict
+      verbose: true
 
 theme:
   name: terminal
-
-plugin:
-  - search
-  - badges
+  palette: gruvbox_dark
