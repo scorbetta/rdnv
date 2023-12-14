@@ -26,3 +26,10 @@ plugins:
 
 extra:
   url_git_dooku: 'https://github.com/scorbetta/rdnv/blob/main/dooku'
+
+nav:
+  - Home: 'index.md'
+  - dooku: 'dooku.md'
+  - tatooine: 'tatooine.md'
+  - organa: 'organa.md'
+  - the_order: 'the_order.md'

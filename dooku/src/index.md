@@ -21,10 +21,9 @@ The verification environment for the `tatooine` library. The verification enviro
 
 `the_order`
 
-A set of rules to deliver high-quality RTL designs and readable source code. Rationale (cit.):
-"*Code is read much more often than it is written*".
+A set of rules to deliver high-quality RTL designs and readable source code.
 
-# Disclaimer
+## Disclaimer
 The author puts his best effort in delivering pre-verified resources; for instance, most of the RTL
 modules are either FPGA or ASIC proven.  However, this is a continuous work-in-progress, so any
 comment, request or criticism can be easily addressed to the author himself.

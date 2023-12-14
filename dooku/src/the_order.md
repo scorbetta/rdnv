@@ -1,5 +1,3 @@
-# the_order
-
 ## Preamble
 Verilog is the preferred language for designing digital circuits. SystemVerilog is also used in some
 cases, but since open-source EDA tools have poor support for SystemVerilog, its usage is kept at a
