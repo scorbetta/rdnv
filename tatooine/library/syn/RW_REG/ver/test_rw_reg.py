@@ -4,6 +4,7 @@ import cocotb
 from random import *
 from cocotb.clock import Clock
 from cocotb.triggers import RisingEdge, FallingEdge, ClockCycles
+from cocotb_coverage.coverage import *
 
 @cocotb.test()
 async def test_rw_reg(dut):

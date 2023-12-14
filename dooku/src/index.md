@@ -17,7 +17,6 @@ mini-site, and the `grogu` documentation engine for RTL designs.
 `tatooine`
 
 The RTL library of verified components. Synthesis-ready and simulation-only modules are regrouped.
-{{tatooine_render('docs/tatooine.md')}}
 
 `organa`
 

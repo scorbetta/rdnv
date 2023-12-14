@@ -1,4 +1,19 @@
+# Site name
 site_name: rdnv
+
+# Site metadata
+site_author: Simone Corbetta
+
+# Source dir
+docs_dir: src
+
+# Target dir on minisite
+site_dir: build
+
+# Configuration
+theme:
+  name: terminal
+  palette: gruvbox_dark
 
 plugins:
   - search
@@ -9,6 +24,5 @@ plugins:
       on_undefined: strict
       verbose: true
 
-theme:
-  name: terminal
-  palette: gruvbox_dark
+extra:
+  url_git_dooku: 'https://github.com/scorbetta/rdnv/blob/main/dooku'

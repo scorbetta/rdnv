@@ -2,6 +2,9 @@
 
 default: docs
 
+# Target folder as defined in  mkdocs.yml  
+SITE_DIR=$(shell grep "site_dir" mkdocs.yml | cut -d ':' -f 2 )
+
 docs: clean
 	# Build documentation
 	mkdocs build
@@ -11,4 +14,5 @@ docs: clean
 	mkdocs serve
 
 clean:
-	rm -fR site
+	rm -fR $(SITE_DIR)
+	find . -name __pycache__ -exec rm -fR {} +

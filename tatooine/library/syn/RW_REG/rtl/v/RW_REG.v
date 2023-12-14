@@ -3,9 +3,7 @@
 // A simple register with an accessible Write signal. The  WEN  signal can be connected to an
 // external bridge, so that Software can overwrite this register via AXI bus
 module RW_REG #(
-    // Data width
     parameter DATA_WIDTH    = 32,
-    // Does it have reset signal?
     parameter HAS_RESET     = 1
 )
 (

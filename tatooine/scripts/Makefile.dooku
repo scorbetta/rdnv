@@ -1,0 +1,6 @@
+.PHONY: xml
+
+# Create top-level structured definition, for dooku
+json:
+	echo "read -vlog2k $(VERILOG_SOURCES); hierarchy -keep_portwidths -top $(TOPLEVEL); proc; write_json $(TOPLEVEL).json" | yosys
+	$(TATOOINE_ROOT)/scripts/json2json.py $(TOPLEVEL).json
