@@ -39,9 +39,8 @@ class ParamItem:
 
 # MarkDown/Jinja interface point
 def define_env(env):
-    # Relative folders are relative to  mkdocs.yml  location. Absolute folders are rooted in the
-    # build  output folder
-    templates_dir = './templates'
+    # Relative folders are relative to  mkdocs.yml/index.html  location
+    templates_dir = 'templates'
     rtl_syn_dir = '../tatooine/library/syn'
     src_sim_dir = '../tatooine/library/sim'
     
@@ -75,7 +74,7 @@ def define_env(env):
 
             temp = ModuleObject(
                 name = f'{modname}',
-                doc_path = f'/tatooine/library/syn/{modname}',
+                doc_path = f'../tatooine/library/{modname}',
                 lang = hdls,
                 cov_file = cov_report
                 #brief = 'TBD',
@@ -121,7 +120,7 @@ def define_env(env):
 
             temp = ModuleObject(
                 name = f'{modname}',
-                doc_path = f'/tatooine/library/sim/{modname}',
+                doc_path = f'../tatooine/library/{modname}',
                 lang = hdls,
                 brief = 'TBD'
             )

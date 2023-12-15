@@ -2,7 +2,7 @@
 Verilog is the preferred language for designing digital circuits. SystemVerilog is also used in some
 cases, but since open-source EDA tools have poor support for SystemVerilog, its usage is kept at a
 minimum. Verification is generally performed using a mixture of SystemVerilog and Python. Please
-refer to [organa](/organa) for additional information.
+refer to [organa](organa.md) for additional information.
 
 ## Coding style
 Styling and conventions are here presented starting with a reference example that clarifies the
