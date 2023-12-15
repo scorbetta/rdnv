@@ -1,0 +1,1 @@
+{"ports": {"CLK": {"direction": "input", "bits": [2]}, "RSTN": {"direction": "input", "bits": [3]}, "SAMPLE_IN": {"direction": "input", "bits": [4]}, "RISE_EDGE_OUT": {"direction": "output", "bits": [5]}, "FALL_EDGE_OUT": {"direction": "output", "bits": [6]}}}

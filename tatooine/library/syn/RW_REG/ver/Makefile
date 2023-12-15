@@ -1,5 +1,5 @@
 # COCOTB configuration
-TOPLEVEL = $(shell dirname $(PWD) | xargs basename)
+TOPLEVEL = $(shell dirname $(CURDIR) | xargs basename)
 FLAVOR = v
 
 # DUT configuration

@@ -1,7 +1,14 @@
-.PHONY: list clean help
+# Modules for which a  ver/  folder exists
+VER_SUBDIRS := $(shell find . -name ver -type d)
 
-# Select DUT
-DUT ?= AXIL2NATIVE
+# Modules for which a  lec/  folder exists
+LEC_SUBDIRS := $(shell find . -name lec -type d)
+
+# List of available targets for  ver/  Makefiles
+VER_TARGETS := all json purge
+
+# List of available targets for  lec/  Makefiles
+LEC_TARGETS := all purge
 
 default: help
 help:
@@ -9,12 +16,12 @@ help:
 	@echo "Available actions"
 	@echo ""
 
-ver:
-	$(MAKE) -C syn/$(DUT)/ver
+$(VER_TARGETS): $(VER_SUBDIRS)
+$(VER_SUBDIRS):
+	$(MAKE) -C $@ $(MAKECMDGOALS)
 
-lec:
-	$(MAKE) -C syn/$(DUT)/lec
+$(LEC_TARGETS): $(LEC_SUBDIRS)
+$(LEC_SUBDIRS):
+	$(MAKE) -C $@ $(MAKECMDGOALS)
 
-clean:
-	$(MAKE) purge -C syn/$(DUT)/ver
-	$(MAKE) purge -C syn/$(DUT)/lec
+.PHONY: help $(VER_SUBDIRS) $(LEC_SUBDIRS) $(VER_TARGETS) $(LEC_TARGETS)
