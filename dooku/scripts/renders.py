@@ -54,6 +54,7 @@ def define_env(env):
         # of the containing folder
         syn_modules = []
         print(f'---> {os.getcwd()}')
+        print(f'---> {os.listdir()}')
         for modname in os.listdir(rtl_syn_dir):
             # Search for available flavors
             flavors = glob.glob(f'{rtl_syn_dir}/**/{modname}.*', recursive=True)
