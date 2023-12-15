@@ -5,10 +5,10 @@ VER_SUBDIRS := $(shell find . -name ver -type d)
 LEC_SUBDIRS := $(shell find . -name lec -type d)
 
 # List of available targets for  ver/  Makefiles
-VER_TARGETS := all json purge
+VER_TARGETS := sim json purge
 
 # List of available targets for  lec/  Makefiles
-LEC_TARGETS := all purge
+LEC_TARGETS := lec purge
 
 default: help
 help:
