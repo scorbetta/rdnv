@@ -4,12 +4,6 @@ resources for your research, design and verification tasks in the digital electr
 The repository is organized in *sections*. Each section is reserved to a specific type of resources,
 documented in this mini-site. Readers, please use the menu on the top to navigate.
 
-`dooku`
-
-The documentation system. This section includes the source code, script and additional files to
-generate this mini-site. It also contains documentation for the
-[`grogu`](https://github.com/scorbetta/grogu) engine.
-
 `tatooine`
 
 The RTL library of verified components. Synthesis-ready and simulation-only modules are present.
@@ -18,6 +12,16 @@ The RTL library of verified components. Synthesis-ready and simulation-only modu
 
 The verification environment for the `tatooine` library. The verification environment is based on
 [`cocotb`](https://www.cocotb.org/) and tools from [`YosysHQ`](https://github.com/YosysHQ).
+
+`dooku`
+
+The documentation system. This section includes the source code, script and additional files to
+generate this mini-site. It also contains documentation for the
+[`grogu`](https://github.com/scorbetta/grogu) engine.
+
+`dagobah`
+
+A collection of utilities.
 
 `the_order`
 

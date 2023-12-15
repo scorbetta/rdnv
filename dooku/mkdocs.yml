@@ -29,7 +29,8 @@ extra:
 
 nav:
   - Home: 'index.md'
-  - dooku: 'dooku.md'
   - tatooine: 'tatooine.md'
   - organa: 'organa.md'
+  - dooku: 'dooku.md'
+  - dagobah: 'dagobah.md'
   - the_order: 'the_order.md'
