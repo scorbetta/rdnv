@@ -53,6 +53,7 @@ def define_env(env):
         # Search for synthesis-ready modules. There must exist a top-level file with the same name
         # of the containing folder
         syn_modules = []
+        print(f'---> {os.getcwd()}')
         for modname in os.listdir(rtl_syn_dir):
             # Search for available flavors
             flavors = glob.glob(f'{rtl_syn_dir}/**/{modname}.*', recursive=True)
