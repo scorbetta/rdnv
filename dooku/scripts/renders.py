@@ -68,9 +68,11 @@ def define_env(env):
     templates_dir = f'{src_root}/dooku/templates'
     rtl_syn_dir = f'{src_root}/tatooine/library/syn'
     rtl_sim_dir = f'{src_root}/tatooine/library/sim'
-    print(f'path: templates_dir={templates_dir}')
-    print(f'path: rtl_syn_dir={rtl_syn_dir}')
-    print(f'path: rtl_sim_dir={rtl_sim_dir}')
+    print(f'path: Here I am @{os.getcwd()}')
+    print(f'path:    templates_dir={templates_dir}')
+    print(f'path:    rtl_syn_dir={rtl_syn_dir}')
+    print(f'path:    rtl_sim_dir={rtl_sim_dir}')
+    os.system('ls -l')
     
     # Jinja engine
     jj_env = jj.Environment(loader=jj.FileSystemLoader(templates_dir))
