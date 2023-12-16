@@ -57,6 +57,12 @@ def get_layout():
         print(f'erro: Unable to find proper root folders')
         assert 0
 
+    # Remove trailing '/' if any
+    if root_in[-1] == '/':
+        root_in = root_in[:-1]
+    if root_out[-1] == '/':
+        root_out = root_out[:-1]
+
     return root_in,root_out
 
 # MarkDown/Jinja interface point
