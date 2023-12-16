@@ -37,17 +37,40 @@ class ParamItem:
     name: str # Name
     default: str # Default value
 
+# Return the base and output folders according to the environment: local mkdocs or remote
+# readthedocs have different folder layout
+def get_layout():
+    root_in = ''
+    root_out = ''
+
+    if 'READTHEDOCS_GIT_CLONE_URL' in os.environ and 'READTHEDOCS_OUTPUT' in os.environ:
+        # Readthedocs case
+        git_url = os.environ['READTHEDOCS_GIT_CLONE_URL']
+        root_in = os.environ['READTHEDOCS_OUTPUT']
+        root_out = f"{os.environ['READTHEDOCS_OUTPUT']}/html"
+    elif 'MKDOCS_LOCAL_SRC_DIR' in os.environ:
+        # Local mkdocs case
+        root_in = f"{os.environ['MKDOCS_LOCAL_SRC_DIR']}"
+        root_out = f"{os.environ['MKDOCS_LOCAL_SRC_DIR']}/dooku/build"
+    else:
+        # Something went wrong
+        print(f'erro: Unable to find proper root folders')
+        assert 0
+
+    return root_in,root_out
+
 # MarkDown/Jinja interface point
 def define_env(env):
-    # Use  src_root  to access source code.  src_root  points to the root of cloned repo
-    stream = os.popen('git rev-parse --show-toplevel')
-    src_root = stream.read().strip()
+    # Use  src_root  to access source code; use  site_root  to access rendered pages
+    src_root,site_root = get_layout()
+
+    # Generate proper path names
     templates_dir = f'{src_root}/dooku/templates'
     rtl_syn_dir = f'{src_root}/tatooine/library/syn'
-    src_sim_dir = f'{src_root}/tatooine/library/sim'
-
-    # Use  site_root  to access rendered pages.  site_root  points to the root of the build output
-    site_root = ''
+    rtl_sim_dir = f'{src_root}/tatooine/library/sim'
+    print(f'path: templates_dir={templates_dir}')
+    print(f'path: rtl_syn_dir={rtl_syn_dir}')
+    print(f'path: rtl_sim_dir={rtl_sim_dir}')
     
     # Jinja engine
     jj_env = jj.Environment(loader=jj.FileSystemLoader(templates_dir))
@@ -55,39 +78,32 @@ def define_env(env):
     # Render synthesis table
     @env.macro
     def tatooine_render_syn_table(url_git):
-        if 'READTHEDOCS_VIRTUALENV_PATH' in os.environ:
-            print(f"--> env1 {os.environ['READTHEDOCS_VIRTUALENV_PATH']}")
-        else:
-            print('--> no env1')
-        if 'READTHEDOCS_OUTPUT' in os.environ:
-            print(f"--> env2 {os.environ['READTHEDOCS_OUTPUT']}")
-        else:
-            print('--> no env2')
         # Search for synthesis-ready modules. There must exist a top-level file with the same name
         # of the containing folder
         syn_modules = []
         for modname in os.listdir(rtl_syn_dir):
             # Search for available flavors
-            flavors = glob.glob(f'{rtl_syn_dir}/**/{modname}.*', recursive=True)
+            hdls = {}
+
+            retval = glob.glob(f'{rtl_syn_dir}/**/{modname}.v', recursive=True)
+            if retval != []:
+                hdls['Verilog'] = f'{url_git}/{os.path.relpath(retval[0], src_root)}'
+
+            retval = glob.glob(f'{rtl_syn_dir}/**/{modname}.sv', recursive=True)
+            if retval != []:
+                hdls['SystemVerilog'] = f'{url_git}/{os.path.relpath(retval[0], src_root)}'
+
+            retval = glob.glob(f'{rtl_syn_dir}/**/{modname}.vhd', recursive=True)
+            if retval != []:
+                hdls['VHDL'] = f'{url_git}/{os.path.relpath(retval[0], src_root)}'
 
             # Search for coverage report
             cov_report = glob.glob(f'{rtl_syn_dir}/{modname}/ver/cov-report.details', recursive=True)
             cov_summary = glob.glob(f'{rtl_syn_dir}/{modname}/ver/cov-report.sumary', recursive=True)
 
-            hdls = {}
-            key = ''
-            for flavor in flavors:
-                if '.v' in flavor:
-                    key = 'Verilog'
-                if '.sv' in flavor:
-                    key = 'SystemVerilog'
-                if '.vhd' in flavor:
-                    key = 'VHDL'
-                hdls[key] = f'{url_git}/{flavor}'
-
             temp = ModuleObject(
                 name = f'{modname}',
-                doc_path = f'../tatooine/library/{modname}',
+                doc_path = f'library/{modname}',
                 lang = hdls,
                 cov_file = cov_report
                 #brief = 'TBD',
@@ -116,26 +132,27 @@ def define_env(env):
     def tatooine_render_sim_table(url_git):
         # Search for simulation-only modules
         sim_modules = []
-        for modname in os.listdir(src_sim_dir):
+        for modname in os.listdir(rtl_sim_dir):
             # Search for available flavors
-            flavors = glob.glob(f'{src_sim_dir}/**/{modname}.*', recursive=True)
-
             hdls = {}
-            key = ''
-            for flavor in flavors:
-                if '.v' in flavor:
-                    key = 'Verilog'
-                if '.sv' in flavor:
-                    key = 'SystemVerilog'
-                if '.vhd' in flavor:
-                    key = 'VHDL'
-                hdls[key] = f'{url_git}/{flavor}'
+
+            retval = glob.glob(f'{rtl_sim_dir}/**/{modname}.v', recursive=True)
+            if retval != []:
+                hdls['Verilog'] = f'{url_git}/{os.path.relpath(retval[0], src_root)}'
+
+            retval = glob.glob(f'{rtl_sim_dir}/**/{modname}.sv', recursive=True)
+            if retval != []:
+                hdls['SystemVerilog'] = f'{url_git}/{os.path.relpath(retval[0], src_root)}'
+
+            retval = glob.glob(f'{rtl_sim_dir}/**/{modname}.vhd', recursive=True)
+            if retval != []:
+                hdls['VHDL'] = f'{url_git}/{os.path.relpath(retval[0], src_root)}'
 
             temp = ModuleObject(
                 name = f'{modname}',
-                doc_path = f'../tatooine/library/{modname}',
-                lang = hdls,
-                brief = 'TBD'
+                doc_path = f'library/{modname}',
+                lang = hdls
+                #brief = 'TBD'
             )
 
             sim_modules.append(temp)

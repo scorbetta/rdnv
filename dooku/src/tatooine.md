@@ -1,7 +1,7 @@
 `tatooine` is the library of reusable digital design modules for synthesis and simulation.
 
 ## Synthesis-ready
-{{tatooine_render_syn_table(url_git_dooku)}}
+{{tatooine_render_syn_table(url_git)}}
 
 ## Simulation-only
-{{tatooine_render_sim_table(url_git_dooku)}}
+{{tatooine_render_sim_table(url_git)}}

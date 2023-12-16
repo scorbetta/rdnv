@@ -25,7 +25,7 @@ plugins:
       verbose: true
 
 extra:
-  url_git_dooku: 'https://github.com/scorbetta/rdnv/blob/main/dooku'
+  url_git: 'https://github.com/scorbetta/rdnv/blob/main'
 
 nav:
   - Home: 'index.md'

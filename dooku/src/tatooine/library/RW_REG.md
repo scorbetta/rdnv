@@ -14,4 +14,4 @@ A simple Read/Write register with parametric width and optional reset.
 Implementation not available.
 
 # Notes
-[`Source code on github.com`]({{url_git_dooku}}/../tatooine/library/syn/RW_REG/rtl)
+[`Source code on github.com`]({{url_git}}/tatooine/library/syn/RW_REG/rtl)
