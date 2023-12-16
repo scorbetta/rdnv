@@ -72,7 +72,7 @@ def define_env(env):
     print(f'path:    templates_dir={templates_dir}')
     print(f'path:    rtl_syn_dir={rtl_syn_dir}')
     print(f'path:    rtl_sim_dir={rtl_sim_dir}')
-    os.system('ls -l')
+    print(os.popen('ls -a').read())
     
     # Jinja engine
     jj_env = jj.Environment(loader=jj.FileSystemLoader(templates_dir))
