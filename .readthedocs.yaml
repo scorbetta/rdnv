@@ -1,4 +1,4 @@
-version: "2"
+ersion: "2"
 
 build:
   os: "ubuntu-22.04"
@@ -11,3 +11,8 @@ python:
 
 mkdocs:
   configuration: dooku/mkdocs.yml
+
+jobs:
+  pre_build:
+    - GIT_ROOT=git rev-parse --show-toplevel
+    - BUILD_ROOT=$READTHEDOCS_OUTPUT

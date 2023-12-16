@@ -39,10 +39,15 @@ class ParamItem:
 
 # MarkDown/Jinja interface point
 def define_env(env):
-    # Relative folders are relative to  mkdocs.yml/index.html  location
-    templates_dir = 'templates'
-    rtl_syn_dir = '../tatooine/library/syn'
-    src_sim_dir = '../tatooine/library/sim'
+    # Use  src_root  to access source code.  src_root  points to the root of cloned repo
+    stream = os.popen('git rev-parse --show-toplevel')
+    src_root = stream.read().strip()
+    templates_dir = f'{src_root}/dooku/templates'
+    rtl_syn_dir = f'{src_root}/tatooine/library/syn'
+    src_sim_dir = f'{src_root}/tatooine/library/sim'
+
+    # Use  site_root  to access rendered pages.  site_root  points to the root of the build output
+    site_root = ''
     
     # Jinja engine
     jj_env = jj.Environment(loader=jj.FileSystemLoader(templates_dir))
@@ -50,11 +55,17 @@ def define_env(env):
     # Render synthesis table
     @env.macro
     def tatooine_render_syn_table(url_git):
+        if 'GIT_ROOT' in os.environ:
+            print(f"--> env1 {os.environ['GIT_ROOT']}")
+        else:
+            print('--> no env1')
+        if 'READTHEDOCS_OUTPUT' in os.environ:
+            print(f"--> env2 {os.environ['READTHEDOCS_OUTPUT']}")
+        else:
+            print('--> no env2')
         # Search for synthesis-ready modules. There must exist a top-level file with the same name
         # of the containing folder
         syn_modules = []
-        print(f'---> {os.getcwd()}')
-        print(f'---> {os.listdir()}')
         for modname in os.listdir(rtl_syn_dir):
             # Search for available flavors
             flavors = glob.glob(f'{rtl_syn_dir}/**/{modname}.*', recursive=True)
