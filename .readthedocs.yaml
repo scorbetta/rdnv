@@ -6,8 +6,8 @@ build:
     python: "3.10"
   jobs:
     pre_build:
-      - GIT_ROOT=git rev-parse --show-toplevel
-      - BUILD_ROOT=$READTHEDOCS_OUTPUT
+      - export GIT_ROOT=$( git rev-parse --show-toplevel )
+      - export BUILD_ROOT=$READTHEDOCS_OUTPUT
 
 python:
   install:
