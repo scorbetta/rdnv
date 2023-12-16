@@ -4,6 +4,10 @@ build:
   os: "ubuntu-22.04"
   tools:
     python: "3.10"
+  jobs:
+    pre_build:
+      - GIT_ROOT=git rev-parse --show-toplevel
+      - BUILD_ROOT=$READTHEDOCS_OUTPUT
 
 python:
   install:
@@ -11,8 +15,3 @@ python:
 
 mkdocs:
   configuration: dooku/mkdocs.yml
-
-jobs:
-  pre_build:
-    - GIT_ROOT=git rev-parse --show-toplevel
-    - BUILD_ROOT=$READTHEDOCS_OUTPUT
