@@ -55,8 +55,8 @@ def define_env(env):
     # Render synthesis table
     @env.macro
     def tatooine_render_syn_table(url_git):
-        if 'GIT_ROOT' in os.environ:
-            print(f"--> env1 {os.environ['GIT_ROOT']}")
+        if 'READTHEDOCS_VIRTUALENV_PATH' in os.environ:
+            print(f"--> env1 {os.environ['READTHEDOCS_VIRTUALENV_PATH']}")
         else:
             print('--> no env1')
         if 'READTHEDOCS_OUTPUT' in os.environ:
