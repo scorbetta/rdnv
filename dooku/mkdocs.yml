@@ -4,29 +4,17 @@ site_name: rdnv
 # Site metadata
 site_author: Simone Corbetta
 
-# Source dir
-docs_dir: src
-
-# Target dir on minisite
-site_dir: build
-
 # Configuration
 theme:
   name: terminal
   palette: gruvbox_dark
 
+# Plugins
 plugins:
   - search
   - badges
-  - macros:
-      module_name: scripts/renders
-      on_error_fail: true
-      on_undefined: strict
-      verbose: true
 
-extra:
-  url_git: 'https://github.com/scorbetta/rdnv/blob/main'
-
+# Navigation
 nav:
   - Home: 'index.md'
   - tatooine: 'tatooine.md'

@@ -1,5 +1,0 @@
-| PARAMETER | DEFAULT |
-|-|-|
-{%- for param in params %}
-| {{param.name}} | {{param.default}} |
-{%- endfor %}

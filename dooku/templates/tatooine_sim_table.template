@@ -1,5 +1,0 @@
-| TOP NAME | BRIEF DESCRIPTION | HDL |
-|-|-|-|
-{%- for module in sim_modules %}
-| [{{module.name}}]({{module.doc_path}}) | {{module.brief}} | {% for key in module.lang %} <a href="{{module.lang[key]}}">{{key}}</a> {% if not loop.last %} {% endif %} {% endfor %}</td> |
-{%- endfor %}

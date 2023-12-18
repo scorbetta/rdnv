@@ -1,0 +1,36 @@
+`tatooine` is the library of reusable digital design modules for synthesis and simulation.
+
+## Synthesis-ready
+<table>
+    <thead>
+        <tr>
+            <th rowspan=2>TOP NAME</th> <th rowspan=2>HDL</th> <th colspan=4>COVERAGE STATUS</th>
+        </tr>
+        <tr>
+            <th>LINE</th> <th>TOGGLE</th> <th>COMB</th> <th>FSM</th>
+        </tr>
+    </thead>
+    <tbody>
+{%- for module in modules %}
+    {% if module.type == 'syn' %}
+        <tr>
+            <td><a href="{{module.doc_path}}">{{module.name}}</a></td>
+            <td>{% for flavor in module.flavors %} <a href="{{flavor.git_url}}">{{flavor.hdl}}</a> {% if not loop.last %} {% endif %} {% endfor %}</td>
+            <td>{{module.cov.line_cov}}</td>
+            <td>{{module.cov.toggle_01_cov}}/{{module.cov.toggle_10_cov}}</td>
+            <td>{{module.cov.comb_cov}}</td>
+            <td>{{module.cov.fsm_arc_cov}}/{{module.cov.fsm_state_cov}}</td>
+        </tr>
+    {% endif %}
+{%- endfor %}
+    </tbody>
+</table>
+
+## Simulation-only
+| TOP NAME | BRIEF DESCRIPTION | HDL |
+|-|-|-|
+{%- for module in modules %}
+    {%- if module.type == 'sim' %}
+| [{{module.name}}]({{module.doc_path}}) | {{module.brief}} | {% for flavor in module.flavors %} <a href="{{flavor.git_url}}">{{flavor.hdl}}</a> {% if not loop.last %} {% endif %} {% endfor %}</td> |
+    {%- endif %}
+{%- endfor %}

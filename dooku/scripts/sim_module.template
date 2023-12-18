@@ -1,0 +1,18 @@
+# Features
+
+# Parameters
+| PARAMETER | DEFAULT |
+|-|-|
+{%- for param in module.params %}
+| {{param.name}} | {{param.default}} |
+{%- endfor %}
+
+# Ports
+| PORT | DIRECTION | WIDTH |
+|-|-|-|
+{%- for port in module.ports %}
+| {{port.name}} | {{port.dir}} | {{port.width}} |
+{%- endfor %}
+
+# Notes
+[`Source code on github.com`]({{module.git_url}})

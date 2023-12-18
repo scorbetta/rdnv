@@ -1,5 +1,0 @@
-| PORT | DIRECTION | WIDTH |
-|-|-|-|
-{%- for port in ports %}
-| {{port.name}} | {{port.dir}} | {{port.width}} |
-{%- endfor %}
