@@ -24,12 +24,10 @@ class ParamItem:
 @dataclass
 class CovItem:
     cov_file: str = 'N/A'  # Coverage file
-    line_cov: str = '0%'  # Coverage result metrics
-    toggle_01_cov: str = '0%'  # Toggle/0->1 coverage
-    toggle_10_cov: str = '0%'  # Toggle/1->0 coverage
-    comb_cov: str = '0%'  # Comb coverage
-    fsm_arc_cov: str = '0%'  # FSM/Arc coverage
-    fsm_state_cov: str = '0%'  # FSM/State coverage
+    line_cov: int = 0 # Coverage result metrics
+    toggle_cov: int = 0 # Toggle coverage, average between 0->1 and 1->0
+    comb_cov: int = 0 # Comb coverage
+    fsm_cov: int = 0 # FSM coverage, average between Arc and State
 
 @dataclass
 class Flavor:
@@ -48,6 +46,34 @@ class Module:
     doc_path: str = ''  # Link to documentation page, relative to  tatooine/  
     cov: CovItem = field(default_factory=CovItem) # Coverage item
     git_url: str = '' # Full URL to rtl/ foldern within git repo
+
+# Get background color for cell in coverage table according to its value
+def get_bg_color(value):
+    value_perc = value * 1.0 / 100
+
+    # Knee point of the gradient
+    knee = 0.75
+
+    # Range in RGB sense
+    rgb_lb = [ 224, 40, 40 ]
+    rgb_knee = [ 245, 247, 40 ]
+    rgb_ub = [ 129, 237, 40 ]
+
+    if value_perc < knee:
+        r = int(rgb_lb[0] + value_perc * (rgb_knee[0] - rgb_lb[0]))
+        g = int(rgb_lb[1] + value_perc * (rgb_knee[1] - rgb_lb[1]))
+        b = 40
+    elif value_perc == knee:
+        r = rgb_knee[0]
+        g = rgb_knee[1]
+        b = 40
+    else:
+        r = int(rgb_knee[0] + value_perc * (rgb_ub[0] - rgb_knee[0]))
+        g = int(rgb_knee[1] + value_perc * (rgb_ub[1] - rgb_knee[1]))
+        b = 40
+ 
+    print(f'---> {value_perc} {r},{g},{b}')
+    return '#{:02x}{:02x}{:02x}'.format(r,g,b)
 
 # Generate parameters and ports list from JSON file
 def get_specs(json_file):
@@ -110,7 +136,8 @@ def render_tatooine(modules):
 
     template = jj_env.get_template('scripts/tatooine.template')
     context = {
-        "modules": list(modules)
+        "modules": list(modules),
+        "get_bg_color": get_bg_color
     }
     stream = template.render(context)
     
@@ -142,7 +169,6 @@ def create_db(rtllib_root, docs_root, git_url):
             new_module.name = modname
             new_module.type = mod_type
             new_module.git_url = f'{git_url}/tatooine/library/{mod_type}/{modname}/rtl'
-            print(f'---> {new_module.git_url}')
             print(f'info: Found {mod_type} module {modname}')
 
             # Target MarkDown file
@@ -179,11 +205,21 @@ def create_db(rtllib_root, docs_root, git_url):
                         )
                     )
             
-            all_modules.append(new_module)
+            # Search for coverage summary
+            cov_summary = glob.glob(f'{rtllib_root}/{mod_type}/**/{modname}/ver/cov-report.metrics', recursive=True)
+            if cov_summary != []:
+                with open(cov_summary[0], 'r') as fid:
+                    tokens = fid.read().split()
 
-            # Search for coverage report
-            #cov_report = glob.glob(f'{rtllib_root}/{modname}/ver/cov-report.details', recursive=True)
-            #cov_summary = glob.glob(f'{rtllib_root}/{modname}/ver/cov-report.sumary', recursive=True)
+                # Sanity checks
+                new_module.cov.cov_file = 'N/A'
+                if len(tokens) == 6:
+                    new_module.cov.line_cov = int(tokens[0][:-1])
+                    new_module.cov.toggle_cov = int((int(tokens[1][:-1]) + int(tokens[2][:-1])) / 2)
+                    new_module.cov.comb_cov = int(tokens[3][:-1])
+                    new_module.cov.fsm_cov = int((int(tokens[4][:-1]) + int(tokens[5][:-1])) / 2)
+
+            all_modules.append(new_module)
 
     return all_modules
 

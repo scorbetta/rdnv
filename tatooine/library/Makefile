@@ -5,10 +5,13 @@ VER_SUBDIRS := $(shell find . -name ver -type d)
 LEC_SUBDIRS := $(shell find . -name lec -type d)
 
 # List of available targets for  ver/  Makefiles
-VER_TARGETS := sim json purge
+VER_TARGETS := sim json purge cov-report
 
 # List of available targets for  lec/  Makefiles
 LEC_TARGETS := lec purge
+
+# Overwrite this to 1 in case coverage is all you need!
+WAVES ?= 0
 
 default: help
 help:
@@ -18,7 +21,7 @@ help:
 
 $(VER_TARGETS): $(VER_SUBDIRS)
 $(VER_SUBDIRS):
-	$(MAKE) -C $@ $(MAKECMDGOALS)
+	$(MAKE) -C $@ $(MAKECMDGOALS) WAVES=$(WAVES)
 
 $(LEC_TARGETS): $(LEC_SUBDIRS)
 $(LEC_SUBDIRS):

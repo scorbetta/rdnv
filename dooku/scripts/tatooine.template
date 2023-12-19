@@ -16,10 +16,10 @@
         <tr>
             <td><a href="{{module.doc_path}}">{{module.name}}</a></td>
             <td>{% for flavor in module.flavors %} <a href="{{flavor.git_url}}">{{flavor.hdl}}</a> {% if not loop.last %} {% endif %} {% endfor %}</td>
-            <td>{{module.cov.line_cov}}</td>
-            <td>{{module.cov.toggle_01_cov}}/{{module.cov.toggle_10_cov}}</td>
-            <td>{{module.cov.comb_cov}}</td>
-            <td>{{module.cov.fsm_arc_cov}}/{{module.cov.fsm_state_cov}}</td>
+            <td style="color:black; background-color:{{get_bg_color(module.cov.line_cov)}};">{{module.cov.line_cov}}%</td>
+            <td style="color:black; background-color:{{get_bg_color(module.cov.toggle_cov)}};">{{module.cov.toggle_cov}}%</td>
+            <td style="color:black; background-color:{{get_bg_color(module.cov.comb_cov)}};">{{module.cov.comb_cov}}%</td>
+            <td style="color:black; background-color:{{get_bg_color(module.cov.fsm_cov)}};">{{module.cov.fsm_cov}}%</td>
         </tr>
     {% endif %}
 {%- endfor %}
