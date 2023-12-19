@@ -200,7 +200,9 @@ module COMMON_CLOCK_FIFO #(
                  .USER_EMPTY    (EMPTY),
                  .EMPTY_INT     (empty_int),
                  .USER_VALID    (valid_i),
-                 .RAM_RE        (ce_portb)
+                 .RAM_RE        (ce_portb),
+                .STAGE1_VALID   (), // Unused
+                .STAGE2_VALID   ()  // 
             );
         end
     endgenerate

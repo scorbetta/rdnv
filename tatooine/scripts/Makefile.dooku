@@ -3,9 +3,10 @@
 # Create top-level structured definition, for dooku
 ifeq ($(FLAVOR),sv)
 json:
-	echo "JSON generation not supported for SystemVerilog files"
+	@echo "JSON generation not supported for SystemVerilog files, use LEC flow instead"
 else
-json:
-	echo "read -vlog2k $(VERILOG_SOURCES); hierarchy -keep_portwidths -top $(TOPLEVEL); proc; write_json $(TOPLEVEL).json" | yosys
-	$(TATOOINE_ROOT)/scripts/json2json.py $(TOPLEVEL).json
+json: $(TOPLEVEL).json
+$(TOPLEVEL).json:
+	@echo "read -vlog2k $(VERILOG_SOURCES); hierarchy -keep_portwidths -top $(TOPLEVEL); proc; write_json $(TOPLEVEL).json" | yosys
+	@$(TATOOINE_ROOT)/scripts/json2json.py $(TOPLEVEL).json
 endif

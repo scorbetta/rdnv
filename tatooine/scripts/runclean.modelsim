@@ -1,3 +1,0 @@
-rm -fR work
-rm -f transcript
-rm -f *.vcd
