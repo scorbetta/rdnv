@@ -25,7 +25,7 @@
     
         <tr>
             <td><a href="COMMON_CLOCK_FIFO">COMMON_CLOCK_FIFO</a></td>
-            <td> <a href="https://github.com/scorbetta/rdnv/tree/main/tatooine/library/syn/COMMON_CLOCK_FIFO/rtl/sv/COMMON_CLOCK_FIFO.sv">SystemVerilog</a>    <a href="https://github.com/scorbetta/rdnv/tree/main/tatooine/library/syn/COMMON_CLOCK_FIFO/rtl/vhd/COMMON_CLOCK_FIFO.vhd">VHDL</a>  </td>
+            <td> <a href="https://github.com/scorbetta/rdnv/tree/main/tatooine/library/syn/COMMON_CLOCK_FIFO/rtl/sv/COMMON_CLOCK_FIFO.sv">SystemVerilog</a>  </td>
             <td>0%</td>
             <td>0%/0%</td>
             <td>0%</td>
@@ -74,8 +74,58 @@
     
     
         <tr>
-            <td><a href="INDEPENDENT_CLOCK_FIFO">INDEPENDENT_CLOCK_FIFO</a></td>
-            <td> <a href="https://github.com/scorbetta/rdnv/tree/main/tatooine/library/syn/INDEPENDENT_CLOCK_FIFO/rtl/vhd/INDEPENDENT_CLOCK_FIFO.vhd">VHDL</a>  </td>
+            <td><a href="FIXED_POINT_ABS">FIXED_POINT_ABS</a></td>
+            <td> <a href="https://github.com/scorbetta/rdnv/tree/main/tatooine/library/syn/FIXED_POINT_ABS/rtl/v/FIXED_POINT_ABS.v">Verilog</a>  </td>
+            <td>0%</td>
+            <td>0%/0%</td>
+            <td>0%</td>
+            <td>0%/0%</td>
+        </tr>
+    
+    
+        <tr>
+            <td><a href="FIXED_POINT_ACC">FIXED_POINT_ACC</a></td>
+            <td> <a href="https://github.com/scorbetta/rdnv/tree/main/tatooine/library/syn/FIXED_POINT_ACC/rtl/v/FIXED_POINT_ACC.v">Verilog</a>  </td>
+            <td>0%</td>
+            <td>0%/0%</td>
+            <td>0%</td>
+            <td>0%/0%</td>
+        </tr>
+    
+    
+        <tr>
+            <td><a href="FIXED_POINT_ADD">FIXED_POINT_ADD</a></td>
+            <td> <a href="https://github.com/scorbetta/rdnv/tree/main/tatooine/library/syn/FIXED_POINT_ADD/rtl/v/FIXED_POINT_ADD.v">Verilog</a>  </td>
+            <td>0%</td>
+            <td>0%/0%</td>
+            <td>0%</td>
+            <td>0%/0%</td>
+        </tr>
+    
+    
+        <tr>
+            <td><a href="FIXED_POINT_CHANGE_SIGN">FIXED_POINT_CHANGE_SIGN</a></td>
+            <td> <a href="https://github.com/scorbetta/rdnv/tree/main/tatooine/library/syn/FIXED_POINT_CHANGE_SIGN/rtl/v/FIXED_POINT_CHANGE_SIGN.v">Verilog</a>  </td>
+            <td>0%</td>
+            <td>0%/0%</td>
+            <td>0%</td>
+            <td>0%/0%</td>
+        </tr>
+    
+    
+        <tr>
+            <td><a href="FIXED_POINT_COMP">FIXED_POINT_COMP</a></td>
+            <td> <a href="https://github.com/scorbetta/rdnv/tree/main/tatooine/library/syn/FIXED_POINT_COMP/rtl/v/FIXED_POINT_COMP.v">Verilog</a>  </td>
+            <td>0%</td>
+            <td>0%/0%</td>
+            <td>0%</td>
+            <td>0%/0%</td>
+        </tr>
+    
+    
+        <tr>
+            <td><a href="FIXED_POINT_MUL">FIXED_POINT_MUL</a></td>
+            <td> <a href="https://github.com/scorbetta/rdnv/tree/main/tatooine/library/syn/FIXED_POINT_MUL/rtl/v/FIXED_POINT_MUL.v">Verilog</a>  </td>
             <td>0%</td>
             <td>0%/0%</td>
             <td>0%</td>
