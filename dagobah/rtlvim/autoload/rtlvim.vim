@@ -28,7 +28,8 @@ endif
 function! rtlvim#GetFilesList(search_path, basename, suffices)
     let file_list = []
     for suffix in a:suffices
-        call extend(file_list, findfile(a:basename . "." . suffix, a:search_path . "/**", -1))
+        "@DEPRECATEDcall extend(file_list, findfile(a:basename . "." . suffix, a:search_path . "/**", -1))
+        call extend(file_list, globpath(a:search_path . "/**", a:basename . "." . suffix, 0, 1))
     endfor
 
     return file_list
@@ -55,12 +56,18 @@ function! rtlvim#TogglePreviewTop(basename)
         pclose
         unlet g:TogglePreview_loaded
     else
-        " Get a list of files matching the required one
+        # Search first
         let g:FileList = rtlvim#GetFilesList(g:RTL_SEARCH_PATH, a:basename, [ 'sv', 'svh', 'v', 'vh', 'vhd' ])
+
+        # If no match is found, or if empty string is used, search for all modules
+        if strlen(a:basename) == 0 || len(g:FileList) == 0
+            let g:FileList = rtlvim#GetFilesList(g:RTL_SEARCH_PATH, 'rtl/**/*', [ 'sv', 'v', 'vhd' ])
+        endif
+
+        # Either open preview or open menu 
         if len(g:FileList) == 1
             call rtlvim#OpenPreview('', 1)
-        elseif len(g:FileList) > 1
-            " Let the user decide in case multiple files are found
+        else
             call popup_create(g:FileList, #{
                 \ line: 'cursor+1',
                 \ col: 'cursor',

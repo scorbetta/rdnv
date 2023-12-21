@@ -1,2 +1,4 @@
-*__pycache__
-*site
+__pycache__
+site
+sim_build
+results.xml
