@@ -1,11 +1,6 @@
-import sys
-import os
-from fpbinary import FpBinary
-import configparser
 import cocotb
 from cocotb.clock import Clock
 from cocotb.triggers import RisingEdge, FallingEdge, ClockCycles
-from FixedPoint import *
 from TatooineUtils import *
 from random import *
 

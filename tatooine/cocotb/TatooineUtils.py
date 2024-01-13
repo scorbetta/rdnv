@@ -19,7 +19,7 @@ def fxp_get_config():
 # Return a random fixed-point number
 def fxp_generate_random(width, frac_bits):
     word_str = ''.join(random.choice(['0','1']) for bit in range(width))
-    value = Fxp(val=f'0b{word_str}', signed=True, n_word=width, n_frac=frac_bits, config=get_fxp_config())
+    value = Fxp(val=f'0b{word_str}', signed=True, n_word=width, n_frac=frac_bits, config=fxp_get_config())
     return value
 
 # Return the fixed-point range
@@ -28,13 +28,13 @@ def fxp_get_range(width, frac_bits):
     frac_part_str = '0' * frac_bits
     int_part_str = '1' + '0' * (width - frac_bits - 1)
     fp_str = int_part_str + frac_part_str
-    fxp_min = Fxp(val=f'0b{fp_str}', signed=True, n_word=width, n_frac=frac_bits, config=get_fxp_config())
+    fxp_min = Fxp(val=f'0b{fp_str}', signed=True, n_word=width, n_frac=frac_bits, config=fxp_get_config())
 
     # Maximum value
     frac_part_str = '1' * frac_bits
     int_part_str = '0' + '1' * (width - frac_bits - 1)
     fp_str = int_part_str + frac_part_str
-    fxp_max = Fxp(val=f'0b{fp_str}', signed=True, n_word=width, n_frac=frac_bits, config=get_fxp_config())
+    fxp_max = Fxp(val=f'0b{fp_str}', signed=True, n_word=width, n_frac=frac_bits, config=fxp_get_config())
 
     return fxp_min,fxp_max
 
@@ -48,5 +48,5 @@ def fxp_abs_err(ref_value, test_value):
 # the fractional part. Resolution is the number given by a binary string that has only the LSB set
 def fxp_get_lsb(width, frac_bits):
     resolution_bin_str = f"0b{'0' * (width-frac_bits)}{'0' * (frac_bits-1)}1"
-    lsb = Fxp(val=resolution_bin_str, signed=True, n_word=width, n_frac=frac_bits, config=get_fxp_config())
+    lsb = Fxp(val=resolution_bin_str, signed=True, n_word=width, n_frac=frac_bits, config=fxp_get_config())
     return lsb

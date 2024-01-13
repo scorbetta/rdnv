@@ -16,8 +16,12 @@ WAVES ?= 0
 default: help
 help:
 	@echo "---- Welcome to Tatooine! ------------"
-	@echo "Available actions"
-	@echo ""
+	@echo "Available actions apply to all modules that support them"
+	@echo "    sim          Run COCOTB-based verification"
+	@echo "    json         Generate JSON specification file, for dooku"
+	@echo "    cov-report   Generate coverage report"
+	@echo "    lec          Run SystemVerilog/Verilog LEC"
+	@echo "    purge        Clear all generated files"
 
 $(VER_TARGETS): $(VER_SUBDIRS)
 $(VER_SUBDIRS):

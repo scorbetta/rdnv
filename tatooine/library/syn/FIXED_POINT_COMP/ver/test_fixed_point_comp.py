@@ -8,6 +8,9 @@ from TatooineUtils import *
 async def test_fixed_point_comp(dut):
     width = int(dut.WIDTH.value)
     frac_bits = int(dut.FRAC_BITS.value)
+    fxp_lsb = fxp_get_lsb(width, frac_bits)
+    fxp_quants = 2 ** width - 1
+    fxp_min,fxp_max = fxp_get_range(width, frac_bits)
 
     # Defaults
     dut.VALUE_A_IN.value = 0
@@ -24,9 +27,9 @@ async def test_fixed_point_comp(dut):
         comparison_test = random.choice([0, 1, 2])
 
         # Adjust corner cases to guarantee convergence of the random algorithm below
-        if comparison_test == 0 and value_a == get_fixed_point_min_value(width, frac_bits):
+        if comparison_test == 0 and value_a == fxp_min:
             comparison_test = 2
-        elif comparison_test == 2 and value_a == get_fixed_point_max_value(width, frac_bits):
+        elif comparison_test == 2 and value_a == fxp_max:
             comparison_test = 0
 
         match comparison_test:
