@@ -1,12 +1,8 @@
-import sys
-import os
-from fpbinary import FpBinary
-import configparser
 import cocotb
 from cocotb.clock import Clock
 from cocotb.triggers import RisingEdge, FallingEdge, ClockCycles
-from FixedPoint import *
 from TatooineUtils import *
+from fxpmath import *
 
 @cocotb.test()
 async def test_fixed_point_abs(dut):
@@ -16,9 +12,6 @@ async def test_fixed_point_abs(dut):
     # Run the clock asap
     clock = Clock(dut.CLK, 10, units="ns")
     cocotb.start_soon(clock.start())
-
-    # Golden model
-    golden = FixedPoint(width, frac_bits)
 
     # Defaults
     dut.VALUE_IN.value = 0
@@ -36,22 +29,22 @@ async def test_fixed_point_abs(dut):
 
     for test in range(1000):
         # Generate random values
-        random_value_in_range,value_bit_string = get_random_fixed_point_value(width, frac_bits)
-        value = FpBinary(int_bits=width-frac_bits, frac_bits=frac_bits, signed=True, value=random_value_in_range)
+        value = fxp_generate_random(width, frac_bits)
 
         # Golden model
-        golden_result = golden.do_op("abs", value)
+        golden_result = abs(value)
 
         # DUT
         await RisingEdge(dut.CLK)
-        dut.VALUE_IN.value = int(value_bit_string, 2)
+        dut.VALUE_IN.value = int(value.hex(),16)
         dut.VALID_IN.value = 1
         await RisingEdge(dut.CLK)
         dut.VALID_IN.value = 0
 
         # Verify
-        await FallingEdge(dut.VALID_OUT)
-        dut_result = bin2fp(dut.VALUE_OUT.value.binstr, width, frac_bits)
+        await RisingEdge(dut.VALID_OUT)
+        await FallingEdge(dut.CLK)
+        dut_result = Fxp(val=f'0b{dut.VALUE_OUT.value}', signed=True, n_word=width, n_frac=frac_bits, config=fxp_get_config())
         assert(dut_result == golden_result),print(f'Results mismatch: dut_result={dut_result},golden_result={golden_result},value={value}')
 
         # Shim delay

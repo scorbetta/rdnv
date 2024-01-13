@@ -1,11 +1,7 @@
-import sys
-import os
-from fpbinary import FpBinary
-import configparser
 import cocotb
 from cocotb.clock import Clock
 from cocotb.triggers import RisingEdge, FallingEdge, ClockCycles
-from FixedPoint import *
+from fxpmath import *
 from TatooineUtils import *
 
 @cocotb.test()
@@ -16,9 +12,6 @@ async def test_fixed_point_change_sign(dut):
     # Run the clock asap
     clock = Clock(dut.CLK, 10, units="ns")
     cocotb.start_soon(clock.start())
-
-    # Golden model
-    golden = FixedPoint(width, frac_bits)
 
     # Defaults
     dut.VALUE_IN.value = 0
@@ -35,41 +28,37 @@ async def test_fixed_point_change_sign(dut):
     for cycle in range(4):
         await RisingEdge(dut.CLK)
 
-    # Constants
-    one_value = FpBinary(int_bits=width-frac_bits, frac_bits=frac_bits, signed=True, value=1.0)
-    minus_one_value = FpBinary(int_bits=width-frac_bits, frac_bits=frac_bits, signed=True, value=-1.0)
-
     for test in range(1000):
         # Generate random values
-        random_value_in_range,value_bit_string = get_random_fixed_point_value(width, frac_bits)
-        value = FpBinary(int_bits=width-frac_bits, frac_bits=frac_bits, signed=True, value=random_value_in_range)
+        value = fxp_generate_random(width, frac_bits)
 
         # Generate random change sign direction
         change_sign_direction = random.choice([0,1])
 
         # Golden model
-        if random_value_in_range >= 0:
+        if value >= 0:
             if change_sign_direction == 0:
-                golden_result = golden.do_op("mul", value, one_value)
+                golden_result = value
             else:
-                golden_result = golden.do_op("mul", value, minus_one_value)
+                golden_result = -value
         else:
             if change_sign_direction == 0:
-                golden_result = golden.do_op("mul", value, minus_one_value)
+                golden_result = -value
             else:
-                golden_result = golden.do_op("mul", value, one_value)
+                golden_result = value
 
         # DUT
         await RisingEdge(dut.CLK)
-        dut.VALUE_IN.value = int(value_bit_string, 2)
+        dut.VALUE_IN.value = int(value.hex(),16)
         dut.VALID_IN.value = 1
         dut.TARGET_SIGN.value = change_sign_direction
         await RisingEdge(dut.CLK)
         dut.VALID_IN.value = 0
 
         # Verify
-        await FallingEdge(dut.VALID_OUT)
-        dut_result = bin2fp(dut.VALUE_OUT.value.binstr, width, frac_bits)
+        await RisingEdge(dut.VALID_OUT)
+        await FallingEdge(dut.CLK)
+        dut_result = Fxp(val=f'0b{dut.VALUE_OUT.value}', signed=True, n_word=width, n_frac=frac_bits, confg=fxp_get_config())
         assert(dut_result == golden_result),print(f'Results mismatch: dut_result={dut_result},golden_result={golden_result},value={value},sign_direction={change_sign_direction}')
 
         # Shim delay

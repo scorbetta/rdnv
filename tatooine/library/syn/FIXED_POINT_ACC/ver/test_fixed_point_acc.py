@@ -1,25 +1,21 @@
-import sys
-import os
-from fpbinary import FpBinary
-import configparser
 import cocotb
 from cocotb.clock import Clock
 from cocotb.triggers import RisingEdge, FallingEdge, ClockCycles
-from FixedPoint import *
+from fxpmath import *
 from TatooineUtils import *
 
 @cocotb.test()
 async def test_fixed_point_acc(dut):
     width = int(dut.WIDTH.value)
     frac_bits = int(dut.FRAC_BITS.value)
+    num_inputs = int(dut.NUM_INPUTS.value)
+    fxp_lsb = fxp_get_lsb(width, frac_bits)
+    fxp_quants = 2 ** width - 1
+    fxp_min,fxp_max = fxp_get_range(width, frac_bits)
 
     # Run the clock asap
     clock = Clock(dut.CLK, 10, units="ns")
     cocotb.start_soon(clock.start())
-
-    # Golden model
-    golden = FixedPoint(width, frac_bits)
-    unused = FpBinary(int_bits=width-frac_bits, frac_bits=frac_bits, signed=True, value=0.0)
 
     # Defaults
     dut.VALID_IN.value = 0
@@ -34,25 +30,21 @@ async def test_fixed_point_acc(dut):
     for cycle in range(4):
         await RisingEdge(dut.CLK)
 
-    # Reset values only once, so that the value keeps cumulating
-    golden.reset_values()
+    # Reset value
+    golden_result = Fxp(0.0, signed=True, n_word=width, n_frac=frac_bits, config=fxp_get_config())
 
     for test in range(1000):
-        # Default inputs to the module
-        num_values = 16#random.randint(1, 256)
- 
         # Generate random values
         random_values_in = []
         random_values_in_str = ""
-        for vdx in range(num_values):
-            random_value,random_value_bit_str = get_random_fixed_point_value(width, frac_bits)
-            value = FpBinary(int_bits=width-frac_bits, frac_bits=frac_bits, signed=True, value=random_value)
+        for vdx in range(num_inputs):
+            value = fxp_generate_random(width, frac_bits)
             random_values_in.append(value)
-            random_values_in_str = f'{random_value_bit_str}{random_values_in_str}'
+            random_values_in_str = f'{value.bin()}{random_values_in_str}'
 
         # Golden model
-        for vdx in range(num_values):
-            golden_result = golden.do_op("acc", random_values_in[vdx], unused)
+        for vdx in range(num_inputs):
+            golden_result = golden_result + random_values_in[vdx]
 
         # DUT
         await RisingEdge(dut.CLK)
@@ -62,11 +54,11 @@ async def test_fixed_point_acc(dut):
         dut.VALID_IN.value = 1
         await RisingEdge(dut.CLK)
         dut.VALID_IN.value = 0
-        await RisingEdge(dut.VALID_OUT)
 
         # Verify
+        await RisingEdge(dut.VALID_OUT)
         await FallingEdge(dut.CLK)
-        dut_result = bin2fp(dut.VALUE_OUT.value.binstr, width, frac_bits)
+        dut_result = Fxp(val=f'0b{dut.VALUE_OUT.value}', signed=True, n_word=width, n_frac=frac_bits, config=fxp_get_config())
         assert(dut_result == golden_result),print(f'Results mismatch: dut_result={dut_result},golden_result={golden_result},values_in={random_values_in}')
 
         # Shim delay

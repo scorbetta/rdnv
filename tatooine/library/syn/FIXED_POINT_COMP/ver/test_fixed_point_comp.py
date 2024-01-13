@@ -1,20 +1,13 @@
-import sys
-import os
-from fpbinary import FpBinary
-import configparser
 import cocotb
 from cocotb.clock import Clock
 from cocotb.triggers import RisingEdge, FallingEdge, ClockCycles, Timer
-from FixedPoint import *
+from fxpmath import *
 from TatooineUtils import *
 
 @cocotb.test()
 async def test_fixed_point_comp(dut):
     width = int(dut.WIDTH.value)
     frac_bits = int(dut.FRAC_BITS.value)
-
-    # Golden model
-    golden = FixedPoint(width, frac_bits)
 
     # Defaults
     dut.VALUE_A_IN.value = 0
@@ -25,16 +18,15 @@ async def test_fixed_point_comp(dut):
 
     for test in range(1000):
         # Generate first random value
-        random_value_a_in_range,value_a_bit_string = get_random_fixed_point_value(width, frac_bits)
-        value_a = FpBinary(int_bits=width-frac_bits, frac_bits=frac_bits, signed=True, value=random_value_a_in_range)
+        value_a = fxp_generate_random(width, frac_bits)
 
         # Sample desired comparison
         comparison_test = random.choice([0, 1, 2])
 
         # Adjust corner cases to guarantee convergence of the random algorithm below
-        if comparison_test == 0 and random_value_a_in_range == get_fixed_point_min_value(width, frac_bits):
+        if comparison_test == 0 and value_a == get_fixed_point_min_value(width, frac_bits):
             comparison_test = 2
-        elif comparison_test == 2 and random_value_a_in_range == get_fixed_point_max_value(width, frac_bits):
+        elif comparison_test == 2 and value_a == get_fixed_point_max_value(width, frac_bits):
             comparison_test = 0
 
         match comparison_test:
@@ -42,32 +34,37 @@ async def test_fixed_point_comp(dut):
                 # value_a > value_b
                 flag = True
                 while flag:
-                    random_value_b_in_range,value_b_bit_string = get_random_fixed_point_value(width, frac_bits)
-                    if random_value_a_in_range > random_value_b_in_range:
+                    value_b = fxp_generate_random(width, frac_bits)
+                    if value_a > value_b:
                         flag = False
 
             case 1:
                 # value_a == value_b
-                random_value_b_in_range = random_value_a_in_range
-                value_b_bit_string = value_a_bit_string
+                value_b = value_a
 
             case 2:
                 # value_a < value_b
                 flag = True
                 while flag:
-                    random_value_b_in_range,value_b_bit_string = get_random_fixed_point_value(width, frac_bits)
-                    if random_value_a_in_range < random_value_b_in_range:
+                    value_b = fxp_generate_random(width, frac_bits)
+                    if value_a < value_b:
                         flag = False
 
-        value_b = FpBinary(int_bits=width-frac_bits, frac_bits=frac_bits, signed=True, value=random_value_b_in_range)
-
         # Golden model
-        golden_gt,golden_eq,golden_lt = golden.do_op("comp", value_a, value_b)
+        golden_gt = 0
+        golden_eq = 0
+        golden_lt = 0
+        if value_a > value_b:
+            golden_gt = 1
+        if value_a == value_b:
+            golden_eq = 1
+        if value_a < value_b:
+            golden_lt = 1
 
         # DUT
         await Timer(2, units='ns')
-        dut.VALUE_A_IN.value = int(value_a_bit_string, 2)
-        dut.VALUE_B_IN.value = int(value_b_bit_string, 2)
+        dut.VALUE_A_IN.value = int(value_a.hex(),16)
+        dut.VALUE_B_IN.value = int(value_b.hex(),16)
 
         # Verify
         await Timer(2, units='ns')

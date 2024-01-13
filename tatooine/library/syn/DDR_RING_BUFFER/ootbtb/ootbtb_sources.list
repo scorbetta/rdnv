@@ -1,5 +1,0 @@
-../../../axi4/AXI4_PKG.sv
-../../../sim/CLK_WIZARD/src/sv/CLK_WIZARD.sv
-../../SDPRAM/src/sv/SDPRAM.sv
-../../random_uniform/src/vhd/random_uniform.vhd
-ootbtb.sv

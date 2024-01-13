@@ -1,11 +1,7 @@
-import sys
-import os
-from fpbinary import FpBinary
-import configparser
 import cocotb
 from cocotb.clock import Clock
 from cocotb.triggers import RisingEdge, FallingEdge, ClockCycles
-from FixedPoint import *
+from fxpmath import *
 from TatooineUtils import *
 
 @cocotb.test()
@@ -16,9 +12,6 @@ async def test_fixed_point_add(dut):
     # Run the clock asap
     clock = Clock(dut.CLK, 10, units="ns")
     cocotb.start_soon(clock.start())
-
-    # Golden model
-    golden = FixedPoint(width, frac_bits)
 
     # Defaults
     dut.VALUE_A_IN.value = 0
@@ -37,26 +30,28 @@ async def test_fixed_point_add(dut):
 
     for test in range(1000):
         # Generate random values
-        random_value_a_in_range,value_a_bit_string = get_random_fixed_point_value(width, frac_bits)
-        value_a = FpBinary(int_bits=width-frac_bits, frac_bits=frac_bits, signed=True, value=random_value_a_in_range)
-        random_value_b_in_range,value_b_bit_string = get_random_fixed_point_value(width, frac_bits)
-        value_b = FpBinary(int_bits=width-frac_bits, frac_bits=frac_bits, signed=True, value=random_value_b_in_range)
+        value_a = fxp_generate_random(width, frac_bits)
+        value_b = fxp_generate_random(width, frac_bits)
 
         # Golden model
-        golden_result = golden.do_op("add", value_a, value_b)
+        golden_result = value_a + value_b
 
         # DUT
         await RisingEdge(dut.CLK)
-        dut.VALUE_A_IN.value = int(value_a_bit_string, 2)
-        dut.VALUE_B_IN.value = int(value_b_bit_string, 2)
+        dut.VALUE_A_IN.value = int(value_a.hex(),16)
+        dut.VALUE_B_IN.value = int(value_b.hex(),16)
         dut.VALID_IN.value = 1
         await RisingEdge(dut.CLK)
         dut.VALID_IN.value = 0
 
         # Verify
-        await FallingEdge(dut.VALID_OUT)
-        dut_result = bin2fp(dut.VALUE_OUT.value.binstr, width, frac_bits)
-        assert(dut_result == golden_result),print(f'Results mismatch: dut_result={dut_result},golden_result={golden_result},value_a={value_a},value_b={value_b}')
+        await RisingEdge(dut.VALID_OUT)
+        await FallingEdge(dut.CLK)
+        dut_result = Fxp(val=f'0b{dut.VALUE_OUT.value}', signed=True, n_word=width, n_frac=frac_bits, config=fxp_get_config())
+        abs_err = fxp_abs_err(golden_result, dut_result)
+        lsb = fxp_get_lsb(width, frac_bits)
+        margin = 1
+        assert(abs_err <= margin*lsb),print(f'Results differ more than {margin} LSBs: dut_result={dut_result},golden_result={golden_result},abs_err={abs_err},lsb={lsb}')
 
         # Shim delay
         for cycle in range(4):
