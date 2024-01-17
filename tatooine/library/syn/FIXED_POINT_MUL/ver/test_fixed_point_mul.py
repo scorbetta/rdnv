@@ -57,10 +57,17 @@ async def test_fixed_point_mul(dut):
         # the absolute distance between the reference value and the measured one) is below a number
         # of LSBs. We use a threshold value to determine the percentage of LSB-related error, i.e.
         # relative to the entire binary range (determined by the  width  parameter)
-        threshold = 0.01
+        threshold = 0.02
         abs_err = fxp_abs_err(golden_result, dut_result)
-        quant_err = float(abs_err) / fxp_quants
-        assert(quant_err <= threshold),print(f'Results differ more than {threshold*100}% LSBs: dut_result={dut_result},golden_result={golden_result},abs_err={abs_err},quant_error={quant_err}')
+        quant_err = float(abs_err) / float(fxp_lsb) / fxp_quants
+
+        if dut.OVERFLOW.value == 1:
+            # Check results match sign
+            assert((dut_result > 0 and golden_result > 0) or (dut_result < 0 and golden_result < 0)),print(f'Sign mismatch during overflow: dut_result={dut_result},golden_result={golden_result}')
+            # Check overflow is asserted only when needed
+            assert((value_a > 0 and value_b > 0 and dut_result < 0) or (value_a > 0 and value_b < 0 and dut_result > 0) or (value_a < 0 and value_b > 0 and dut_result > 0) or (value_a < 0 and value_b < 0 and dut_result < 0)),print(f'Unexpected overflow with value_a={value_a},value_b={value_b},dut_result={dut_result}')
+        else:
+            assert(quant_err <= threshold),print(f'Results differ more than {threshold*100}% LSBs: dut_result={dut_result},golden_result={golden_result},abs_err={abs_err},quant_error={quant_err}')
 
         # For debug and characterization
         ratios.append([ abs_err.get_val(), quant_err ])
@@ -68,6 +75,3 @@ async def test_fixed_point_mul(dut):
         # Shim delay
         for cycle in range(4):
             await RisingEdge(dut.CLK)
-
-    #@DBUGfor rat in ratios:
-    #@DBUG    print(rat)

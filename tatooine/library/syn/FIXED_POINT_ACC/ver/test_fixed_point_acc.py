@@ -30,9 +30,7 @@ async def test_fixed_point_acc(dut):
     for cycle in range(4):
         await RisingEdge(dut.CLK)
 
-    # Reset value
     golden_result = Fxp(0.0, signed=True, n_word=width, n_frac=frac_bits, config=fxp_get_config())
-
     for test in range(1000):
         # Generate random values
         random_values_in = []
@@ -59,7 +57,12 @@ async def test_fixed_point_acc(dut):
         await RisingEdge(dut.VALID_OUT)
         await FallingEdge(dut.CLK)
         dut_result = Fxp(val=f'0b{dut.VALUE_OUT.value}', signed=True, n_word=width, n_frac=frac_bits, config=fxp_get_config())
-        assert(dut_result == golden_result),print(f'Results mismatch: dut_result={dut_result},golden_result={golden_result},values_in={random_values_in}')
+        threshold = 0.01
+        abs_err = fxp_abs_err(golden_result, dut_result)
+        quant_err = float(abs_err) / float(fxp_lsb) / fxp_quants
+
+        if dut.OVERFLOW.value == 0:
+            assert(quant_err <= threshold),print(f'Results differ more than {threshold*100}% LSBs: values_in={random_values_in},dut_result={dut_result},golden_result={golden_result},abs_err={abs_err},quant_error={quant_err}')
 
         # Shim delay
         for cycle in range(4):

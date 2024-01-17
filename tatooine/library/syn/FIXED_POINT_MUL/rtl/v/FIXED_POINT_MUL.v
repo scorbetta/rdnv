@@ -18,11 +18,16 @@ module FIXED_POINT_MUL
     input wire                      VALID_IN,
     // Output result
     output wire signed [WIDTH-1:0]  VALUE_OUT,
-    output wire                     VALID_OUT
+    output wire                     VALID_OUT,
+    output wire                     OVERFLOW
 );
 
     reg signed [2*WIDTH-1:0]    a_times_b;
     reg                         mul_valid;
+    wire                        overflow;
+    wire                        value_a_sign;
+    wire                        value_b_sign;
+    wire                        value_out_sign;
 
     always @(posedge CLK) begin
         if(!RSTN) begin
@@ -34,15 +39,24 @@ module FIXED_POINT_MUL
 
             if(VALID_IN) begin
                 // Rebase to the proper base
-                a_times_b <= (VALUE_A_IN * VALUE_B_IN) >> FRAC_BITS;
+                a_times_b <= VALUE_A_IN * VALUE_B_IN;
                 mul_valid <= 1'b1;
             end
         end
     end
 
+    // Overflow in multiplication never actually occurs, since we are reserving twice the number of
+    // bits of the operands for the result. Still, we consider overflow that case when the sign of
+    // the result is different than the expected, similar to what it's done with the addition
+    assign value_a_sign     = VALUE_A_IN[WIDTH-1];
+    assign value_b_sign     = VALUE_B_IN[WIDTH-1];
+    assign value_out_sign   = VALUE_OUT[WIDTH-1];
+    assign overflow         = (~value_a_sign & ~value_b_sign & value_out_sign) | (~value_a_sign & value_b_sign & ~value_out_sign) | (value_a_sign & ~value_b_sign & ~value_out_sign) | (value_a_sign & value_b_sign & value_out_sign);
+
     // Pinout
-    assign VALUE_OUT    = a_times_b[WIDTH-1:0];
+    assign VALUE_OUT    = a_times_b[FRAC_BITS +: WIDTH];
     assign VALID_OUT    = mul_valid;
+    assign OVERFLOW     = overflow;
 endmodule
 
 `default_nettype wire

@@ -23,7 +23,8 @@ module FIXED_POINT_ACC
     input wire signed [WIDTH-1:0]               EXT_VALUE_IN,
     // Accumulator
     output wire signed [WIDTH-1:0]              VALUE_OUT,
-    output wire                                 VALID_OUT
+    output wire                                 VALID_OUT,
+    output wire                                 OVERFLOW
 );
 
     // States encoding
@@ -45,6 +46,8 @@ module FIXED_POINT_ACC
     wire                                adder_valid;
     reg [$clog2(NUM_INPUTS_INT)-1:0]    adder_valid_counter;
     reg                                 adder_valid_counter_reset;
+    wire                                adder_overflow;
+    reg                                 overflow;
 
     // Sequentially generate the accumulator value
     always @(posedge CLK) begin
@@ -110,7 +113,8 @@ module FIXED_POINT_ACC
         .VALUE_B_IN (adder_in),
         .VALID_IN   (adder_enable),
         .VALUE_OUT  (acc),
-        .VALID_OUT  (adder_valid)
+        .VALID_OUT  (adder_valid),
+        .OVERFLOW   (adder_overflow)
     );
 
     // Count number of valid operations by the adder
@@ -123,9 +127,20 @@ module FIXED_POINT_ACC
         end
     end
 
+    // Overflow is sticky
+    always @(posedge CLK) begin
+        if(!RSTN | VALID_IN) begin
+            overflow <= 1'b0;
+        end
+        else if(adder_valid && adder_overflow) begin
+            overflow <= 1'b1;
+        end
+    end
+
     // Pinout
     assign VALUE_OUT    = acc;
     assign VALID_OUT    = acc_valid;
+    assign OVERFLOW     = overflow;
 endmodule
 
 `default_nettype wire

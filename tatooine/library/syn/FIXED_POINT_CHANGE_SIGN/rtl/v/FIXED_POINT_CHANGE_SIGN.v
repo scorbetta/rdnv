@@ -17,40 +17,43 @@ module FIXED_POINT_CHANGE_SIGN
     input wire signed [WIDTH-1:0]   VALUE_IN,
     input wire                      VALID_IN,
     output wire signed [WIDTH-1:0]  VALUE_OUT,
-    output wire                     VALID_OUT
+    output wire                     VALID_OUT,
+    output wire                     OVERFLOW
 );
 
      reg signed [WIDTH-1:0]     value_out;
      reg                        valid_out;
      wire                       sign;
      wire                       sign_match;
+     wire signed [WIDTH-1:0]    value_negated;
      wire signed [WIDTH-1:0]    value_converted;
      wire                       valid_converted;
-     wire signed [WIDTH-1:0]    fixed_point_minus_one;
+     wire signed [WIDTH-1:0]    value_b_in;
      wire                       valid_in_filtered;
+     wire                       add_overflow;
+     reg                        overflow;
 
     // As usual, the MSB hints about the negative number
     assign sign = VALUE_IN[WIDTH-1];
 
-    // Special number
-    assign fixed_point_minus_one = { {WIDTH-FRAC_BITS{1'b1}}, {FRAC_BITS{1'b0}} };
+    // Run 2's complement only when required, this also simplifies mux later
+    assign valid_in_filtered    = VALID_IN & ~sign_match;
+    assign value_negated        = ~VALUE_IN;
+    assign value_b_in           = { {WIDTH-1{1'b0}}, 1'b1 };
 
-    // Multiplication run only when required, this also simplifies mux later
-    assign valid_in_filtered = VALID_IN & ~sign_match;
-
-    // Compute 2's complement conversion
-    FIXED_POINT_MUL #(
+    FIXED_POINT_ADD #(
         .WIDTH      (WIDTH),
         .FRAC_BITS  (FRAC_BITS)
     )
-    FIXED_POINT_MUL_0 (
+    ADDER (
         .CLK        (CLK),
         .RSTN       (RSTN),
-        .VALUE_A_IN (VALUE_IN),
-        .VALUE_B_IN (fixed_point_minus_one),
+        .VALUE_A_IN (value_negated),
+        .VALUE_B_IN (value_b_in),
         .VALID_IN   (valid_in_filtered),
         .VALUE_OUT  (value_converted),
-        .VALID_OUT  (valid_converted)
+        .VALID_OUT  (valid_converted),
+        .OVERFLOW   (add_overflow)
     );
 
     // When sign of incoming value already matches the desired one, discard all computations
@@ -66,10 +69,12 @@ module FIXED_POINT_CHANGE_SIGN
             if(VALID_IN && sign_match) begin
                 value_out <= VALUE_IN;
                 valid_out <= 1'b1;
+                overflow <= 1'b0;
             end
             else if(valid_converted) begin
                 value_out <= value_converted;
                 valid_out <= 1'b1;
+                overflow <= add_overflow;
             end
         end
     end
@@ -77,6 +82,7 @@ module FIXED_POINT_CHANGE_SIGN
     // Pinout
     assign VALUE_OUT    = value_out;
     assign VALID_OUT    = valid_out;
+    assign OVERFLOW     = overflow;
 endmodule
 
 `default_nettype wire

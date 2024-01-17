@@ -1,3 +1,4 @@
+import numpy as np
 import cocotb
 from cocotb.clock import Clock
 from cocotb.triggers import RisingEdge, FallingEdge, ClockCycles
@@ -8,6 +9,8 @@ from fxpmath import *
 async def test_fixed_point_abs(dut):
     width = int(dut.WIDTH.value)
     frac_bits = int(dut.FRAC_BITS.value)
+    fxp_lsb = fxp_get_lsb(width, frac_bits)
+    fxp_min,fxp_max = fxp_get_range(width, frac_bits)
 
     # Run the clock asap
     clock = Clock(dut.CLK, 10, units="ns")
@@ -26,10 +29,12 @@ async def test_fixed_point_abs(dut):
     # Shim delay
     for cycle in range(4):
         await RisingEdge(dut.CLK)
-
-    for test in range(1000):
+    
+    # Run over all range
+    ramp_values = np.arange(fxp_min.get_val(), fxp_max.get_val(), fxp_lsb.get_val())
+    for value in ramp_values:
         # Generate random values
-        value = fxp_generate_random(width, frac_bits)
+        value = Fxp(value, signed=True, n_word=width, n_frac=frac_bits, config=fxp_get_config())
 
         # Golden model
         golden_result = abs(value)
@@ -45,7 +50,9 @@ async def test_fixed_point_abs(dut):
         await RisingEdge(dut.VALID_OUT)
         await FallingEdge(dut.CLK)
         dut_result = Fxp(val=f'0b{dut.VALUE_OUT.value}', signed=True, n_word=width, n_frac=frac_bits, config=fxp_get_config())
-        assert(dut_result == golden_result),print(f'Results mismatch: dut_result={dut_result},golden_result={golden_result},value={value}')
+
+        if dut.OVERFLOW.value == 0:
+            assert(dut_result == golden_result),print(f'Results mismatch: dut_result={dut_result},golden_result={golden_result},value={value}')
 
         # Shim delay
         for cycle in range(4):
