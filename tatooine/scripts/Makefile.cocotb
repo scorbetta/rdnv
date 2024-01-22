@@ -45,7 +45,8 @@ cov-report:
 	# Score run
 	covered score $(SCORE_OPTS) -i $(TOPLEVEL) -t $(TOPLEVEL) -vcd dump.vcd -o $(TOPLEVEL).cdd
 	# Report (l)ine, (t)oggle, (c)ombinational and (f)sm metrics
-	covered report -d d -m ltcf -o cov-report.details $(TOPLEVEL).cdd
+	#@DETAILEDcovered report -d d -m ltcf -o cov-report.details $(TOPLEVEL).cdd
+	covered report -d s -m ltcf -o cov-report.summary $(TOPLEVEL).cdd
 	# Generate summary for documentation
 	grep -w "Accumulated" cov-report.summary | tr '\n' ' ' | grep -Eo "[0-9]+\%" > cov-report.metrics
 endif
