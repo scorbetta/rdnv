@@ -12,16 +12,16 @@ MODULE = test_$(shell echo $(TOPLEVEL) | tr 'A-Z' 'a-z')
 
 # Organa configuration flavor
 FLAVOR ?= v
-DUT_BASE = $(shell echo $(TATOOINE_ROOT)/library/syn/$(TOPLEVEL)/rtl/$(FLAVOR)/ | sed 's/\//\\\//g')
+DUT_BASE ?= $(shell echo $(TATOOINE_ROOT)/library/syn/$(TOPLEVEL)/rtl/$(FLAVOR)/ | sed 's/\//\\\//g')
 
 # DUT prefix
 VERILOG_SOURCES ?= $(shell grep -E "\.[s]*v$$" $(DUT_BASE)/sources.list | sed s'/^/$(DUT_BASE)/g')
 
 # Verilator general options
-EXTRA_ARGS += +1364-2005ext+v +1800-2017ext+sv --autoflush --timing
+override EXTRA_ARGS += +1364-2005ext+v +1800-2017ext+sv --autoflush --timing
 
 ifeq ($(WAVES),1)
-EXTRA_ARGS += --trace-fst --trace-structs
+override EXTRA_ARGS += --trace-fst --trace-structs
 endif
 
 # Include COCOTB Makefiles

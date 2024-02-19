@@ -1,0 +1,2 @@
+vlog -32 -O0 -noincr ../rtl/v/../../../D_FF_EN/rtl/v/D_FF_EN.v ../rtl/v/PISO_BUFFER.v ../rtl/v/SIPO_BUFFER.v ../rtl/v/../../../COUNTER/rtl/v/COUNTER.v ../rtl/v/../../../EDGE_DETECTOR/rtl/v/EDGE_DETECTOR.v ../rtl/v/SCI_MASTER.v ../rtl/v/SCI_SLAVE.v ootbtb.v
+vsim -32 -batch -do "run -all; quit" ootbtb

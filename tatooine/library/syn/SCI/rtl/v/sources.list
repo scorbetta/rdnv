@@ -1,0 +1,7 @@
+../../../D_FF_EN/rtl/v/D_FF_EN.v
+PISO_BUFFER.v
+SIPO_BUFFER.v
+../../../COUNTER/rtl/v/COUNTER.v
+../../../EDGE_DETECTOR/rtl/v/EDGE_DETECTOR.v
+SCI_MASTER.v
+SCI_SLAVE.v

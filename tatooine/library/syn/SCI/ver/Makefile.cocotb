@@ -1,0 +1,11 @@
+# COCOTB configuration
+TOPLEVEL ?= $(shell dirname $(CURDIR) | xargs basename)
+FLAVOR = v
+DUT_BASE = $(shell echo $(TATOOINE_ROOT)/library/syn/SCI/rtl/$(FLAVOR)/ | sed 's/\//\\\//g')
+
+# DUT configuration
+override EXTRA_ARGS += -Wno-WIDTHEXPAND -Wno-ZERODLY
+
+# Include ORGANA Makefiles
+include $(TATOOINE_ROOT)/scripts/Makefile.cocotb
+include $(TATOOINE_ROOT)/scripts/Makefile.dooku

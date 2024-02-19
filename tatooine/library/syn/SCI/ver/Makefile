@@ -1,0 +1,15 @@
+.PHONY: clean
+
+ADDR_WIDTH ?= 4
+DATA_WIDTH ?= 8
+NUM_PERIPHERALS ?= 4
+WAVES ?= 0
+
+test_sci_master:
+	$(MAKE) -f Makefile.cocotb TOPLEVEL=SCI_MASTER WAVES=$(WAVES) EXTRA_ARGS+="-GADDR_WIDTH=$(ADDR_WIDTH) -GDATA_WIDTH=$(DATA_WIDTH) -GNUM_PERIPHERALS=$(NUM_PERIPHERALS)"
+
+test_sci_slave:
+	$(MAKE) -f Makefile.cocotb TOPLEVEL=SCI_SLAVE WAVES=$(WAVES) EXTRA_ARGS+="-GADDR_WIDTH=$(ADDR_WIDTH) -GDATA_WIDTH=$(DATA_WIDTH)"
+
+clean:
+	$(MAKE) -f Makefile.cocotb purge
