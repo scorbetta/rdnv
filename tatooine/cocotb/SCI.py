@@ -67,6 +67,8 @@ class SCI:
             await FallingEdge(dut._id(self.name['clock'],extended=False))
             if int(dut._id(self.name['ack'],extended=False).value) == 1:
                 break
+            #else:
+                #print(f"---> {dut._id(self.name['ack'],extended=False).value}")
             await RisingEdge(dut._id(self.name['clock'],extended=False))
 
         # De-select the peripheral
