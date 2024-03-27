@@ -20,6 +20,7 @@ RUN chmod a+x ModelSimSetup-20.1.1.720-linux.run
 RUN ./ModelSimSetup-20.1.1.720-linux.run --mode unattended --installdir /tools --accept_eula 1
 # Make it available through the  users  group. Troubleshoot here: https://askubuntu.com/questions/455000/group-permissions-allow-but-still-get-permission-denied
 RUN chgrp -R users /tools/modelsim_ase
+RUN rm -f ModelSimSetup-20.1.1.720-linux.run
 
 # Switch to  user  for Python stuff
 USER user

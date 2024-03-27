@@ -10,13 +10,15 @@ RUN apt-get install -y sudo unzip vim
 
 # udev
 RUN mkdir -p /etc/udev/rules.d
-RUN echo "SUBSYSTEM==\"net\", ACTION==\"add\", ATTR{address}==\"90:1b:0e:8b:a8:2e\", NAME=\"eth0\"" >> /etc/udev/rules.d/10-net-naming.rules
+#RUN echo "SUBSYSTEM==\"net\", ACTION==\"add\", ATTR{address}==\"90:1b:0e:8b:a8:2e\", NAME=\"eth0\"" >> /etc/udev/rules.d/10-net-naming.rules
 
 # User
 RUN useradd -ms /bin/bash user
 RUN usermod -aG sudo user
-COPY icecube_installer /home/user
-COPY license.dat /home/user
+RUN usermod -aG users user
+RUN echo "user:user" | chpasswd
+#COPY icecube_installer /home/user
+#COPY license.dat /home/user
 
 # Init
 USER user
