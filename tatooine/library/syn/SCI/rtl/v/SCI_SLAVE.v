@@ -10,8 +10,8 @@ module SCI_SLAVE #(
     // SCI interface
     input wire                      SCI_CSN,
     input wire                      SCI_REQ,
-    inout wire                      SCI_RESP,
-    inout wire                      SCI_ACK,
+    output wire                     SCI_RESP,
+    output wire                     SCI_ACK,
     // Native interface
     output wire                     NI_WREQ,
     output wire [ADDR_WIDTH-1:0]    NI_WADDR,
@@ -35,7 +35,6 @@ module SCI_SLAVE #(
     wire                            open_req;
     wire                            count_rstn;
     wire                            sci_resp_enable;
-    wire                            sci_resp;
     wire                            sci_ack_enable;
     wire                            sci_ack;
     reg                             wnr;
@@ -199,7 +198,7 @@ module SCI_SLAVE #(
         .PIN        (NI_RDATA),
         .LOAD_IN    (NI_RVALID),
         .SHIFT_OUT  (rdata_shift),
-        .SOUT       (sci_resp)
+        .SOUT       (SCI_RESP)
     );
 
     assign rdata_shift = ((curr_state == SCI_DATA_PHASE) && !wnr) ? 1'b1 : 1'b0;
@@ -219,14 +218,7 @@ module SCI_SLAVE #(
 
     assign NI_RREQ  = ni_rreq;
     assign NI_RADDR = reg_addr;
-
-    // Response interface line is tri-stated
-    assign sci_resp_enable  = ((SCI_CSN == 1'b0) ? 1'b1 : 1'b0);
-    assign SCI_RESP         = (sci_resp_enable ? sci_resp : 1'bz);
-
-    assign sci_ack          = (((curr_state == NI_WDATA_PHASE) && NI_WACK) || rdata_shift) ? 1'b1 : 1'b0;
-    assign sci_ack_enable   = ((SCI_CSN == 1'b0) ? 1'b1 : 1'b0);
-    assign SCI_ACK          = (sci_ack_enable ? sci_ack : 1'bz);
+    assign SCI_ACK  = (((curr_state == NI_WDATA_PHASE) && NI_WACK) || rdata_shift) ? 1'b1 : 1'b0;
 endmodule
 
 `default_nettype wire

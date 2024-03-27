@@ -21,8 +21,8 @@ module SCI_MASTER
     // Serial interface
     output wire [NUM_PERIPHERALS-1:0]   SCI_CSN,
     output wire                         SCI_REQ,
-    inout wire                          SCI_RESP,
-    inout wire                          SCI_ACK
+    input wire                          SCI_RESP,
+    input wire                          SCI_ACK
 );
 
     localparam IDLE         = 2'b00;
@@ -36,11 +36,7 @@ module SCI_MASTER
     wire                            wdata;
     wire                            addr_shift;
     wire                            addr;
-    wire                            sci_resp_enable;
-    wire                            sci_resp;
     reg                             sci_resp_q;
-    wire                            sci_ack_enable;
-    wire                            sci_ack;
     reg                             sci_ack_q;
     wire                            count_rstn;
     wire                            addr_count_en;
@@ -217,15 +213,6 @@ module SCI_MASTER
 
     assign SCI_REQ = sci_req;
 
-    // Response interface line is tri-stated, but input only
-    assign sci_resp_enable  = 1'b0;
-    assign SCI_RESP         = (sci_resp_enable ? 1'b0 : 1'bz);
-    assign sci_resp         = SCI_RESP;
-
-    assign sci_ack_enable   = 1'b0;
-    assign SCI_ACK          = (sci_ack_enable ? 1'b0 : 1'bz);
-    assign sci_ack          = SCI_ACK;
-
     // Resample data from tri-state buffers
     always @(posedge CLK) begin
         if(!RSTN) begin
@@ -233,8 +220,8 @@ module SCI_MASTER
             sci_resp_q <= 1'b0;
         end
         else begin
-            sci_ack_q <= sci_ack;
-            sci_resp_q <= sci_resp;
+            sci_ack_q <= SCI_ACK;
+            sci_resp_q <= SCI_RESP;
         end
     end
 
