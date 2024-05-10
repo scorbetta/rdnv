@@ -8,7 +8,7 @@ RUN DEBIAN_FRONTEND=noninteractive TZ=Etc/UTC apt-get -y install tzdata
 RUN apt-get install -y sudo vim git cscope wget software-properties-common gzip
 
 # KiCAD
-RUN add-apt-repository -y ppa:kicad/kicad-8.0-releases
+RUN add-apt-repository -y ppa:kicad/kicad-7.0-releases
 RUN apt-get update
 RUN apt-get install -y kicad
 
